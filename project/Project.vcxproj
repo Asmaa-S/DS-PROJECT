@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Generic_DS\BSTree.cpp" />
     <ClCompile Include="Events\ArrivalEvent.cpp" />
     <ClCompile Include="Events\Event.cpp" />
     <ClCompile Include="GUI\GUI.cpp" />
@@ -140,11 +141,14 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Generic_DS\BSTree.h" />
     <ClInclude Include="Defs.h" />
     <ClInclude Include="Events\ArrivalEvent.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Generic_DS\Node.h" />
     <ClInclude Include="Generic_DS\Queue.h" />
+    <ClInclude Include="Generic_DS\Stack.h" />
+    <ClInclude Include="Generic_DS\treeNode.h" />
     <ClInclude Include="GUI\GUI.h" />
     <ClInclude Include="GUI\GUIDefs.h" />
     <ClInclude Include="GUI\GUIDrawables\GUIDrawable.h" />
@@ -154,6 +158,7 @@
     <ClInclude Include="GUI\GUIWindows\MainScreen.h" />
     <ClInclude Include="GUI\GUIWindows\StartingScreen.h" />
     <ClInclude Include="GUI\GUIWindows\TextArea.h" />
+    <ClInclude Include="Generic_DS\LinkedList.h" />
     <ClInclude Include="Rest\Cook.h" />
     <ClInclude Include="Rest\Order.h" />
     <ClInclude Include="Rest\Restaurant.h" />
