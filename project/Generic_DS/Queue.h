@@ -1,6 +1,7 @@
 #ifndef __QUEUE_H_
 #define __QUEUE_H_
-
+#include<iostream>
+using namespace std;
 /*This code is an updated version from "Data Abstraction & Problem Solving with C++,WALLS AND MIRRORS ,SIXTH EDITION"*/
 
 /*
@@ -58,6 +59,8 @@ public :
 	bool dequeue(T& frntEntry);  
 	bool peekFront(T& frntEntry)  const;
 	T* toArray(int& count);	//returns array of T (array if items)
+	int count();
+	T read_element(int index);
 	~Queue();
 };
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -208,5 +211,55 @@ T* Queue<T>::toArray(int& count)
 	}
 	return Arr;
 }
+
+template <typename T>
+int Queue<T>:: count() {
+	Node<T> *p = frontPtr;
+	if (p == nullptr)
+		return 0;
+
+	int c = 1;
+	p = p->getNext();
+
+	while (p != nullptr) {
+
+		c++;
+		p = p->getNext();
+	}
+	return c;
+
+}
+
+template <typename T>
+T Queue<T>:: read_element(int index) {
+	if (index<0 || index> this->count())
+	{
+		cout << "invalid index";
+		return -1;
+	}
+
+	Node<T> *p = frontPtr;
+	if (p == nullptr) {
+
+		cout << "empty queue";
+		return-1;
+	}
+	T val;
+
+	if (index == 0)
+	{
+		val = p->getItem();
+		return val;
+	}
+
+
+	for (int i = 1; i <= index; i++) {
+
+		p = p->getNext();
+	}
+	val = p->getItem();
+	return val;
+}
+
 
 #endif
