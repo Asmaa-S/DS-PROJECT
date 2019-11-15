@@ -1,40 +1,40 @@
 #pragma once
-
+template<class T>
 class treeNode
 {
 private:
-	int data;
-	treeNode *left;
-	treeNode *right;
+	T data;
+	treeNode<T> *left;
+	treeNode<T> *right;
 public:
-	treeNode(int val)
+	treeNode(T val)
 	{
 		data = val;
 		left = right = nullptr;
 	}
 
 
-	void setdata(int d)
+	void setdata(T d)
 	{
 		data = d;
 	}
-	int getdata()
+	T getdata()
 	{
 		return data;
 	}
-	void setleft(treeNode* p)
+	void setleft(treeNode<T>* p)
 	{
 		left = p;
 	}
-	treeNode*& getleft()
+	treeNode<T>*& getleft()
 	{
 		return left;
 	}
-	void setright(treeNode* p)
+	void setright(treeNode<T>* p)
 	{
 		right = p;
 	}
-	treeNode*&getright()
+	treeNode<T>*&getright()
 	{
 		return right;
 	}

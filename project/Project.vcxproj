@@ -124,7 +124,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Generic_DS\BSTree.cpp" />
     <ClCompile Include="Events\ArrivalEvent.cpp" />
     <ClCompile Include="Events\Event.cpp" />
     <ClCompile Include="GUI\GUI.cpp" />

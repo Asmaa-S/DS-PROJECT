@@ -57,9 +57,6 @@
     <ClCompile Include="Rest\Restaurant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Generic_DS\BSTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Events\ArrivalEvent.h">

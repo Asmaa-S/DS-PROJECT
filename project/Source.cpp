@@ -47,16 +47,18 @@ int main() {
 
 		delete pRest;
 	*/
-	GUIDemo();
+	
+	//GUIDemo();
 	
 
 
 
 	//****************************************************
 	//testing the generic DSs
-	/*BSTree bst;
+	BSTree<int> bst;
 	bst.insertBST(8);
 	bst.insertBST(13);
+	
 	bst.insertBST(3);
 	bst.insertBST(9);
 	bst.insertBST(1);
@@ -64,7 +66,8 @@ int main() {
 	bst.inorder_traverse();
 	bst.printParents();
 	int x;
-
+	cin >> x;
+	/*
 	Stack<int>*s = new Stack<int>(50);
 	Queue <int>* l = new Queue <int>;
 	int *r = new int[6];
