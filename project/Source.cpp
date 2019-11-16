@@ -40,21 +40,22 @@ int GUIDemo()
 	return 0;
 }
 
-int main() {
-	/*
-		Restaurant* pRest = new Restaurant;
-		pRest->RunSimulation();
+void removeSpaces(string &line);
 
-		delete pRest;
-	*/
+int main() {
 	
 	//GUIDemo();
-	
 
+	Restaurant* pRest = new Restaurant;
+
+	delete pRest;
+
+  // testing load from file 
 
 
 	//****************************************************
 	//testing the generic DSs
+	/*
 	BSTree<int> bst;
 	bst.insertBST(8);
 	bst.insertBST(13);
@@ -67,7 +68,7 @@ int main() {
 	bst.printParents();
 	int x;
 	cin >> x;
-	/*
+	
 	Stack<int>*s = new Stack<int>(50);
 	Queue <int>* l = new Queue <int>;
 	int *r = new int[6];

@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Events\cancellationEvent.cpp" />
     <ClCompile Include="Events\ArrivalEvent.cpp" />
     <ClCompile Include="Events\Event.cpp" />
     <ClCompile Include="GUI\GUI.cpp" />
@@ -134,12 +135,15 @@
     <ClCompile Include="GUI\GUIWindows\MainScreen.cpp" />
     <ClCompile Include="GUI\GUIWindows\StartingScreen.cpp" />
     <ClCompile Include="GUI\GUIWindows\TextArea.cpp" />
+    <ClCompile Include="Events\promotionEvent.cpp" />
+    <ClCompile Include="PROMOTIONEVENT.CPP" />
     <ClCompile Include="Rest\Cook.cpp" />
     <ClCompile Include="Rest\Order.cpp" />
     <ClCompile Include="Rest\Restaurant.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Events\cancellationEvent.h" />
     <ClInclude Include="Generic_DS\BSTree.h" />
     <ClInclude Include="Defs.h" />
     <ClInclude Include="Events\ArrivalEvent.h" />
@@ -158,6 +162,7 @@
     <ClInclude Include="GUI\GUIWindows\StartingScreen.h" />
     <ClInclude Include="GUI\GUIWindows\TextArea.h" />
     <ClInclude Include="Generic_DS\LinkedList.h" />
+    <ClInclude Include="Events\promotionEvent.h" />
     <ClInclude Include="Rest\Cook.h" />
     <ClInclude Include="Rest\Order.h" />
     <ClInclude Include="Rest\Restaurant.h" />

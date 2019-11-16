@@ -1,20 +1,26 @@
 #pragma once
 
 #include "..\Defs.h"
-
+#include "Order.h"
 #pragma once
 class Cook
 {
 	int ID;
 	ORD_TYPE type;	//for each order type there is a corresponding type (VIP, Normal, Vegan)
 	int speed;		//dishes it can prepare in one clock tick (in one timestep)
+	int break_duration;
+	int state; // 0 is free, 1 is busy, -1 is on break
 
 public:
 	Cook();
+	Cook(int id, ORD_TYPE typ, int sp, int br);
 	virtual ~Cook();
 	int GetID() const;
 	ORD_TYPE GetType() const;
 	void setID(int);
 	void setType(ORD_TYPE) ;
+	void give_order(Order &o);
+		void put_on_break();
+
 
 };

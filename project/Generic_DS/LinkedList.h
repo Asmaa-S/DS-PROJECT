@@ -52,9 +52,9 @@ public:
 	* Parameters:
 	*	- data : The value to be stored in the new node.
 	*/
-	void InsertBeg(const T &data)
+	void InsertBeg(T& val)
 	{
-		Node<T> *R = new Node<T>(data);
+		Node<T>* R = new Node<T>(val);
 		R->setNext(Head);
 		Head = R;
 		count++;
@@ -86,7 +86,7 @@ public:
 
 	//[1]InsertEnd 
 	//inserts a new node at end if the list
-	void InsertEnd(const T &data) {
+	void InsertEnd( T &data) {
 
 		if (Head == nullptr) {
 			InsertBeg(data);
