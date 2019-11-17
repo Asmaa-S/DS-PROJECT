@@ -94,8 +94,25 @@ void Restaurant::FillDrawingList()
 {
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
-	//It should get orders from orders lists/queues/stacks/whatever (same for cooks)
+	//It should get orders from orders lists/queues/stacks/whatever (same for cook
+	//how to draw cooks?
+	/*Queue<Order> vegantemp;
+	Order vOrder;
+	while (!veganorders.isEmpty())
+	{ 
+		veganorders.dequeue(vOrder);
+		if (vOrder.setAT <= currentstep)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
+			vegantemp.enqueue(vOrder);
+		}
+		else
+		{
+			vegantemp.enqueue(vOrder);
+		}
 
+	}
+	while*/
 }
 
 void Restaurant::load_from_file(string filename)
@@ -205,22 +222,22 @@ void Restaurant::load_from_file(string filename)
 			string Oo_t = lines[i].substr(4, 1);
 			if (Oo_t == "N") {
 				O_t = TYPE_NRM;
-				Order OOn(i_d, O_t);
-				normalorders.InsertEnd(OOn);
+				//Order OOn(i_d, O_t);
+				//normalorders.InsertEnd(OOn);
 			}
 
 			else if (Oo_t == "V")
 			{
 				O_t = TYPE_VIP;
-				Order OOv(i_d, O_t);
-				viporders.InsertEnd(OOv);
+				//Order OOv(i_d, O_t);
+				//viporders.InsertEnd(OOv);
 
 			}
 			else
 			{
 				O_t = TYPE_VEG;
-				Order OOg(i_d, O_t);
-				veganorders.enqueue(OOg);
+				//Order OOg(i_d, O_t);
+				//veganorders.enqueue(OOg);
 			}
 			Event* evv = new ArrivalEvent(a_t, i_d, O_t);
 
@@ -290,4 +307,8 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 	outfile << "\n autopromoted : " << n_autopromoted;
 
+}
+bool Restaurant::EventsQueueIsEmpty()
+{ // this function checks if the Event Queue is empty or not
+	return EventsQueue.isEmpty();
 }
