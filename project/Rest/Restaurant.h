@@ -17,6 +17,9 @@
 #include<algorithm>
 #include <time.h> 
 #include <sstream> 
+#include "..\GUI\GUIDrawables\NormalGUIElement.h"
+#include "..\GUI\GUIDrawables\VeganGUIElement.h"
+#include "..\GUI\GUIDrawables\VIPGUIElement.h"
 // it is the maestro of the project
 class Restaurant  
 {	
