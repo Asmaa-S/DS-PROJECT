@@ -216,6 +216,10 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_VIP;
 				Order OOv(i_d, O_t);
 				viporders.InsertSorted(OOv);
+=======
+				Order OOv(i_d, O_t);
+				viporders.InsertEnd(OOv);
+>>>>>>> f4110f74ef9eeff794d931c10aa38ccf8a6da1a5
 
 			}
 			else
@@ -293,6 +297,7 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\n autopromoted : " << n_autopromoted;
 
 }
+<<<<<<< HEAD
 
 LinkedList<Order> Restaurant::getNormalOrders()
 {
@@ -315,3 +320,9 @@ Queue<Order> Restaurant::getFinishedOrders()
 }
 
 
+=======
+bool Restaurant::EventsQueueIsEmpty()
+{ // this function checks if the Event Queue is empty or not
+	return EventsQueue.isEmpty();
+}
+>>>>>>> f4110f74ef9eeff794d931c10aa38ccf8a6da1a5
