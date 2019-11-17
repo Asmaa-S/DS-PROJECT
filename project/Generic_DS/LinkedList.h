@@ -1,4 +1,5 @@
 #pragma once
+#include "F:\CIE\Data structure\Project - Github version\DS-PROJECT\project\Rest\Order.h"
 #include <tuple>
 #include "Node.h"
 #include <iostream>
@@ -331,6 +332,42 @@ public:
 			return 0;
 	}
 
+	//overloaded function specified for Order Class
+	//sorted is descending
+	int issorted()
+		// Checks if the list is sorted 1 means descending 2 means ascending -1 means empty list 0 means unsorted 3 means all elements are equal 
+		//or list has one element
+	{
+		bool descending = true;
+		bool ascending = true;
+
+		if (Head == NULL)
+			return -1; //empty list
+
+		Node<Order>* ptr = Head;
+		for (ptr = Head; ptr->getNext() != nullptr; ptr = ptr->getNext())
+		{
+			if (ptr->getItem().getPriority() < ptr->getNext()->getItem().getPriority())
+				descending = false;
+		}
+
+		for (ptr = Head; ptr->getNext() != nullptr; ptr = ptr->getNext())
+		{
+			if (ptr->getItem().getPriority() > ptr->getNext()->getItem().getPriority())
+				ascending = false;
+		}
+		if (descending)
+			return 1;
+
+		else if (ascending)
+			return -2;
+		else if (ascending && descending)
+			return 3;
+
+		else
+			return 0;
+	}
+
 
 
 	bool InsertSorted(T data)
@@ -338,7 +375,7 @@ public:
 		int x = this->issorted();
 		if (x <= 0)
 		{
-			cout << "list is either empty or unsorted";
+			cout << "list is either empty, ascending or unsorted";
 			return false;
 		}
 
@@ -360,7 +397,7 @@ public:
 		Node<T>* ptr = Head;
 		if (x == 1) {
 
-			while (ptr->getNext() != nullptr && ptr->getNext()->getPriority() > data)
+			while (ptr->getNext() != nullptr && ptr->getNext()->getItem() > data)
 			{
 				ptr = ptr->getNext();
 			}
@@ -373,7 +410,7 @@ public:
 
 		else if (x == 2) {
 
-			while (ptr->getNext() != nullptr && ptr->getNext()->getPriority() < data) {
+			while (ptr->getNext() != nullptr && ptr->getNext()->getItem() < data) {
 				ptr = ptr->getNext();
 			}
 
@@ -382,9 +419,57 @@ public:
 			Nn->setNext(p);
 
 			return true;
-		};
+		}
 		count++;
 	};
+
+	//overloaded function for class Order
+	bool InsertSorted(Order order)
+	{
+		int x = this->issorted();
+		if (x <= 0)
+		{
+			cout << "list is either empty or unsorted";
+			return false;
+		}
+
+
+		Node <Order>* Nn = new Node<Order>;
+
+		if (Head->getNext() == nullptr) //element
+		{
+			InsertBeg(order);
+
+
+			return true;
+		}
+
+
+		Node<Order>* ptr = Head;
+		if (x == 1) {
+
+			while (ptr->getNext() != nullptr && ptr->getNext()->getItem().getPriority() > order.getPriority())
+			{
+				ptr = ptr->getNext();
+			}
+
+			if ( ptr->getNext->getItem().getPriority() == order.getPriority())
+			{
+				if (order.getAT() > ptr->getNext->getItem().getAT())
+				{
+					ptr = ptr->getNext();
+				}
+			}
+
+			Node<T> *p = ptr->getNext();
+			Nn->setNext(p);
+			ptr->setNext(Nn);
+			return true;
+		}
+
+		count++;
+	};
+	
 
 
 
@@ -399,7 +484,7 @@ public:
 
 		while (ptr != nullptr)
 		{
-			if (ptr->getPriority() < mini->getPriority())
+			if (ptr->getItem() < mini->getItem())
 				mini = ptr;
 
 			ptr = ptr->getNext();
@@ -415,7 +500,7 @@ public:
 		else
 		{
 			Node <T>* p = Head;
-			while (p->getNext()->getPriority() != mini->getPriority())
+			while (p->getNext()->getItem() != mini->getItem())
 			{
 				p = p->getNext();
 			}

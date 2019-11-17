@@ -8,7 +8,7 @@
 #include "GUI\GUIDrawables\VIPGUIElement.h"
 #include "GUI\GUI.h"
 #include<iostream>
-
+/*
 int GUIDemo()
 {
 	GUI gui;
@@ -38,17 +38,38 @@ int GUIDemo()
 	}
 	
 	return 0;
-}
+}*/
 
 void removeSpaces(string &line);
+void simpleSimulator()
+{
+	GUI gui;
+	gui.initSimMode(); 
+	int step = 1; // initialize 
+	Restaurant* pRest = new Restaurant; //create resturant object
+
+
+	while (!pRest->EventsQueueIsEmpty()) //working until there are no more events nor active orders in the system 
+										 //fadl el active orders tt7t ezay
+	{
+		gui.printStringInStatusBar("Current Time: " + std::to_string(step)); //update status bar with currunt time
+		
+		gui.handleSimGUIEvents();
+		gui.waitForClick();
+		step++; //increase time by one
+	}
+	delete pRest;
+
+}
 
 int main() {
 	
 	//GUIDemo();
+	simpleSimulator();
 
-	Restaurant* pRest = new Restaurant;
+	//Restaurant* pRest = new Restaurant;
 
-	delete pRest;
+	//delete pRest;
 
   // testing load from file 
 
@@ -94,4 +115,6 @@ int main() {
 	int x;
 	cin >> x;
 	*/
+	int pause;
+	cin >> pause;
 }

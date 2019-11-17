@@ -31,7 +31,6 @@ private:
 	Queue<Order> veganorders;
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
-
 	Queue<Order> Finished_Orders;
 	//
 	// TODO: Add More Data Members As Needed
@@ -47,10 +46,13 @@ public:
 	void RunSimulation();
 
 	void FillDrawingList();
-
+	bool EventsQueueIsEmpty();
 	void load_from_file(string filename);
 	void save_to_file(string filename);
-	//
+	LinkedList<Order> getNormalOrders();
+	LinkedList<Order> getVipOrders();
+	Queue<Order> getVeganOrders();
+	Queue<Order> getFinishedOrders();
 	// TODO: Add More Member Functions As Needed
 	//
 

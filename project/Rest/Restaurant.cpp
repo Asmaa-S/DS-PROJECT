@@ -215,7 +215,7 @@ void Restaurant::load_from_file(string filename)
 			{
 				O_t = TYPE_VIP;
 				Order OOv(i_d, O_t);
-				viporders.InsertSorted();
+				viporders.InsertSorted(OOv);
 
 			}
 			else
@@ -293,3 +293,25 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\n autopromoted : " << n_autopromoted;
 
 }
+
+LinkedList<Order> Restaurant::getNormalOrders()
+{
+	return normalorders;
+}
+
+LinkedList<Order> Restaurant::getVipOrders()
+{
+	return viporders;
+}
+
+Queue<Order> Restaurant::getVeganOrders()
+{
+	return veganorders;
+}
+
+Queue<Order> Restaurant::getFinishedOrders()
+{
+	return Finished_Orders;
+}
+
+

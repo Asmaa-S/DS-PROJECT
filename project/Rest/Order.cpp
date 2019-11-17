@@ -73,7 +73,7 @@ void Order::setAT(int s)
 
 int Order::getAT() const
 {
-	return array;
+	return ArrTime;
 }
 
 void Order::setST(int s)
