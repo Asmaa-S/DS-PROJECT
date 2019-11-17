@@ -11,6 +11,7 @@ Cook::Cook(int id, ORD_TYPE typ, int sp, int br)
 	type = typ;
 	speed = sp;
 	break_duration = br;
+	state = 0;
 }
 
 

@@ -47,7 +47,7 @@ public:
 	void RunSimulation();
 
 	void FillDrawingList();
-
+	bool EventsQueueIsEmpty();
 	void load_from_file(string filename);
 	void save_to_file(string filename);
 	//

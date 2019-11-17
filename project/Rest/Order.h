@@ -36,9 +36,6 @@ public:
 	void SetFinish(int d);
 	int GetFinish() const;
 
-	void SetFinish(int d);
-	int GetFinish() const;
-
 	
 	void setStatus(ORD_STATUS s);
 	ORD_STATUS getStatus() const;
