@@ -95,7 +95,24 @@ void Restaurant::FillDrawingList()
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
 	//It should get orders from orders lists/queues/stacks/whatever (same for cooks)
+	//how to draw cooks?
+	/*Queue<Order> vegantemp;
+	Order vOrder;
+	while (!veganorders.isEmpty())
+	{ 
+		veganorders.dequeue(vOrder);
+		if (vOrder.setAT <= currentstep)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
+			vegantemp.enqueue(vOrder);
+		}
+		else
+		{
+			vegantemp.enqueue(vOrder);
+		}
 
+	}
+	while*/
 }
 
 
