@@ -25,3 +25,9 @@ enum ORD_STATUS	//order status
 	DONE,	//Delivered (finished) to its destination
 	ORD_STATUS_CNT
 };
+ 
+enum event_type {
+	R,
+	X,
+	P
+};

@@ -5,6 +5,7 @@
 ArrivalEvent::ArrivalEvent(int eTime, int oID, ORD_TYPE oType):Event(eTime, oID)
 {
 	OrdType = oType;
+	et = R;
 }
 
 void ArrivalEvent::Execute(Restaurant* pRest)
