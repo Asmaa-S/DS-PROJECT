@@ -214,6 +214,7 @@ void Restaurant::load_from_file(string filename)
 			else if (Oo_t == "V")
 			{
 				O_t = TYPE_VIP;
+<<<<<<< HEAD
 				Order OOv(i_d, O_t);
 				viporders.InsertSorted(OOv);
 =======
