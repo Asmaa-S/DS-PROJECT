@@ -98,6 +98,8 @@ void Restaurant::FillDrawingList()
 
 }
 
+
+
 void Restaurant::load_from_file(string filename)
 {   //open file
 	ifstream infile;
@@ -213,7 +215,7 @@ void Restaurant::load_from_file(string filename)
 			{
 				O_t = TYPE_VIP;
 				Order OOv(i_d, O_t);
-				viporders.InsertEnd(OOv);
+				viporders.InsertSorted();
 
 			}
 			else

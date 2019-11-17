@@ -360,7 +360,7 @@ public:
 		Node<T>* ptr = Head;
 		if (x == 1) {
 
-			while (ptr->getNext() != nullptr && ptr->getNext()->getItem() > data)
+			while (ptr->getNext() != nullptr && ptr->getNext()->getPriority() > data)
 			{
 				ptr = ptr->getNext();
 			}
@@ -373,7 +373,7 @@ public:
 
 		else if (x == 2) {
 
-			while (ptr->getNext() != nullptr && ptr->getNext()->getItem() < data) {
+			while (ptr->getNext() != nullptr && ptr->getNext()->getPriority() < data) {
 				ptr = ptr->getNext();
 			}
 
@@ -399,7 +399,7 @@ public:
 
 		while (ptr != nullptr)
 		{
-			if (ptr->getItem() < mini->getItem())
+			if (ptr->getPriority() < mini->getPriority())
 				mini = ptr;
 
 			ptr = ptr->getNext();
@@ -415,7 +415,7 @@ public:
 		else
 		{
 			Node <T>* p = Head;
-			while (p->getNext()->getItem() != mini->getItem())
+			while (p->getNext()->getPriority() != mini->getPriority())
 			{
 				p = p->getNext();
 			}

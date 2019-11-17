@@ -48,6 +48,7 @@ public:
 	void setST(int s); //servicetime
 	int getST() const;
 	
+	double getPriority();
 	//
 	// TODO: Add More Member Functions As Needed
 	//
