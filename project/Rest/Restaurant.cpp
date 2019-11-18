@@ -348,6 +348,23 @@ Queue<Order> Restaurant::getFinishedOrders()
 Order Restaurant::getInserviceList()
 {
 	return inserviceList;
+	return &inserviceList;
+
+}
+
+void Restaurant::pickOneOrder()
+{
+	Node<Order> *headvip =viporders.getHead();
+	inserviceList[inservice] = headvip->getItem();
+	viporders.DeleteFirst();
+	inservice++;
+	Node<Order> *headnormal = normalorders.getHead();
+	inserviceList[inservice] = headnormal->getItem();
+	normalorders.DeleteFirst();
+	inservice++;
+	Node<Order> *headvegan = veganorders.peekFront();
+
+	
 
 }
 
