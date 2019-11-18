@@ -121,8 +121,40 @@ void Restaurant::FillDrawingList()
 		pGUI->addGUIDrawable(new VIPGUIElement(vipOrder.GetID(), GUI_REGION::ORD_REG));
 	}
 	//Drawing Available cooks list
+	int numOfveganCooks = vegancookslist.getCount();
+	Cook veganCook;
+	for (int i = 0; i < numOfveganCooks; i++)
+	{
+		veganCook = vegancookslist.getkth(i);
+		if (veganCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(veganCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfnormalCooks = normalcookslist.getCount();
+	Cook normalCook;
+	for (int i = 0; i < numOfnormalCooks; i++)
+	{
+		normalCook = normalcookslist.getkth(i);
+		if (normalCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new NormalGUIElement(normalCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfvipCooks = vipcookslist.getCount();
+	Cook vipCook;
+	for (int i = 0; i < numOfvipCooks; i++)
+	{
+		vipCook = vipcookslist.getkth(i);
+		if (vipCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VIPGUIElement(vipCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
 	//Drawing in service orders list
+
 	//Drawing Finished orders
+
 }
 
 

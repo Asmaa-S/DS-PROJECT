@@ -23,7 +23,7 @@
 // it is the maestro of the project
 class Restaurant  
 {	
-private:
+public:
 	int n_autopromoted=0;
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
@@ -31,8 +31,6 @@ private:
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
 	Order inserviceList;
-	Queue<Order> veganorders;
-public:
 	Queue<Order> veganorders; //7atenahom public 3lshan elarrival wl cancelation events // check them back b2a
 
 	LinkedList<Order> normalorders;
