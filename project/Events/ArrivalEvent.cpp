@@ -18,7 +18,6 @@ ArrivalEvent::ArrivalEvent(int eTime, int oID, ORD_TYPE oType, int size, double 
 void ArrivalEvent::Execute(Restaurant* pRest)
 {
 	//This function should create an order and fills its data 
-	// Then adds it to normal, vegan, or VIP order lists that you will create in phase1
 	// Then adds it to either normal, vegan, or VIP order lists
 
 	Order ord(EventTime,OrderID, OrdType,OrdDishes,OrdMoney); 
