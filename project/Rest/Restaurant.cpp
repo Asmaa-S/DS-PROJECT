@@ -346,7 +346,6 @@ Queue<Order> Restaurant::getFinishedOrders()
 
 Order Restaurant::getInserviceList()
 {
-	return inserviceList;
 	return &inserviceList;
 
 }
