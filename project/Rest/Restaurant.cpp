@@ -96,6 +96,8 @@ void Restaurant::FillDrawingList()
 	//It should add ALL orders and cooks to the drawing list
 	//It should get orders from orders lists/queues/stacks/whatever (same for cook
 	//how to draw cooks?
+
+	//draw order list
 	int numOfVeganOrders = veganorders.count;
 	Order vOrder;
 	for (int i = 0; i<numOfVeganOrders;i++)
@@ -109,9 +111,15 @@ void Restaurant::FillDrawingList()
 	Order nOrder;
 	for (int i = 0; i < numOfNormalOrders; i++)
 	{
-
-		//pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
-
+		nOrder = normalorders.getkth(i);
+		pGUI->addGUIDrawable(new NormalGUIElement(nOrder.GetID(), GUI_REGION::ORD_REG));
+	}
+	int numOfVIPOrders = viporders.getCount(); //m7tagen n7otohm mtrtben 3lshan nshl 3la nfsna el rsm 
+	Order vipOrder;
+	for (int i = 0; i < numOfVIPOrders; i++)
+	{
+		vipOrder = viporders.getkth(i);
+		pGUI->addGUIDrawable(new VIPGUIElement(vipOrder.GetID(), GUI_REGION::ORD_REG));
 	}
 }
 

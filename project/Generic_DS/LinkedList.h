@@ -301,6 +301,25 @@ public:
 		}
 	}
 
+	T getkth(int k)
+	{
+		if (k > (count - 1) || k < 0)
+		{
+			cout << "Beyond List Length";
+		}
+		else {
+			Node<T>* kptr = Head;
+
+			for (int i = 0; i < k; i++)
+			{
+				kptr = kptr->getNext();
+
+			}
+			return kptr->getItem();
+		}
+	}
+
+
 	int issorted()
 		// Checks if the list is sorted 1 means descending 2 means ascending -1 means empty list 0 means unsorted 3 means all elements are equal 
 		//or list has one element
