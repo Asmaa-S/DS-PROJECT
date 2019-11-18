@@ -10,5 +10,6 @@ public:
 	cancellationEvent(int eTime, int oID);
 	~cancellationEvent();
 	virtual void Execute(Restaurant *pRest);
+
 };
 
