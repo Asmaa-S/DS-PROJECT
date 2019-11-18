@@ -5,7 +5,7 @@
 
 class cancellationEvent:public Event
 {
-
+	ORD_TYPE oT;
 public:
 	cancellationEvent(int eTime, int oID);
 	~cancellationEvent();

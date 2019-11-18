@@ -4,6 +4,7 @@
 
 promotionEvent:: promotionEvent(int eTime, int oID, double mon) :Event(eTime, oID)
 {
+	
 	money = mon;
 	et = P;
 }
