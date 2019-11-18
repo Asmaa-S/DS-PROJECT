@@ -8,7 +8,6 @@ using namespace std;
 #include<fstream>
 
 
-
 void removeSpaces(string &line)
 {
 	
