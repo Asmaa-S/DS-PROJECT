@@ -54,6 +54,7 @@ public:
 	void setVIPpriority(int p); // VIP order Priority
 	int getVIPpriority(); //go and give them definition
 	
+	double getPriority();
 	//
 	// TODO: Add More Member Functions As Needed
 	//

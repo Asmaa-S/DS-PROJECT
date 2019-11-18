@@ -99,6 +99,11 @@ int Order::getST() const
 	return ServTime;
 }
 
+double Order::getPriority()
+{
+	return (2 * totalMoney - 0.5 * ServTime - Dishes);
+}
+
 
 void Order::setStatus(ORD_STATUS s)
 {

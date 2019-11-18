@@ -94,7 +94,7 @@ void Restaurant::FillDrawingList()
 {
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
-	//It should get orders from orders lists/queues/stacks/whatever (same for cook
+
 
 	//draw  waiting order list
 	int numOfVeganOrders = veganorders.count;
@@ -124,6 +124,8 @@ void Restaurant::FillDrawingList()
 	//Drawing in service orders list
 	//Drawing Finished orders
 }
+
+
 
 void Restaurant::load_from_file(string filename)
 {   //open file
@@ -240,14 +242,19 @@ void Restaurant::load_from_file(string filename)
 			{
 				O_t = TYPE_VIP;
 				//Order OOv(i_d, O_t);
+				//viporders.InsertSorted(OOv);
+
+				//Order OOv(i_d, O_t);
 				//viporders.InsertEnd(OOv);
+
+
 
 			}
 			else
 			{
 				O_t = TYPE_VEG;
-				//Order OOg(i_d, O_t);
-				//veganorders.enqueue(OOg);
+				Order OOg(i_d, O_t);
+				veganorders.enqueue(OOg);
 			}
 			Event* evv = new ArrivalEvent(a_t, i_d, O_t);
 
@@ -318,7 +325,37 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\n autopromoted : " << n_autopromoted;
 
 }
+
+
+LinkedList<Order> Restaurant::getNormalOrders()
+{
+	return normalorders;
+}
+
+LinkedList<Order> Restaurant::getVipOrders()
+{
+	return viporders;
+}
+
+Queue<Order> Restaurant::getVeganOrders()
+{
+	return veganorders;
+}
+
+Queue<Order> Restaurant::getFinishedOrders()
+{
+	return Finished_Orders;
+}
+
+Order Restaurant::getInserviceList()
+{
+	return inserviceList;
+
+}
+
+
 bool Restaurant::EventsQueueIsEmpty()
 { // this function checks if the Event Queue is empty or not
 	return EventsQueue.isEmpty();
 }
+
