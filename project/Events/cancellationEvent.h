@@ -5,7 +5,6 @@
 
 class cancellationEvent:public Event
 {
-
 public:
 	cancellationEvent(int eTime, int oID);
 	~cancellationEvent();

@@ -61,7 +61,34 @@ void Restaurant::RunSimulation()
 
 }
 
+void Restaurant::simpleSimulator()
+{	// initialize 
+	pGUI = new GUI;
+	pGUI->initSimMode();
+	int step = 1; 
 
+	//loadfile
+
+	while (!this->EventsQueueIsEmpty()|| !veganorders.isEmpty() || normalorders.getCount() !=0 || viporders.getCount() !=0) //ba2y 2zwd el in service list
+	{	//excute current time step events
+		ExecuteEvents(step);
+		//pick one order
+
+		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
+
+		//update interface
+		this->FillDrawingList(); 
+		pGUI->updateInterface();
+		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step)); //update status bar with currunt time
+		pGUI->printStringInStatusBar("  No Of Vegan Waiting orders: " + std::to_string(veganorders.count())+ "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount())+ "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount()));
+		pGUI->printStringInStatusBar("  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
+		pGUI->updateInterface();
+		pGUI->handleSimGUIEvents();
+		pGUI->waitForClick();
+		step++; //increase time by one
+	}
+
+}
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
 
@@ -97,6 +124,8 @@ void Restaurant::FillDrawingList()
 	//how to draw cooks?
 
 	//draw order list
+
+	//draw  waiting order list
 	int numOfVeganOrders = veganorders.count;
 	Order vOrder;
 	for (int i = 0; i<numOfVeganOrders;i++)
@@ -119,6 +148,45 @@ void Restaurant::FillDrawingList()
 	{
 		vipOrder = viporders.getkth(i);
 		pGUI->addGUIDrawable(new VIPGUIElement(vipOrder.GetID(), GUI_REGION::ORD_REG));
+	}
+	//Drawing Available cooks list
+	int numOfveganCooks = vegancookslist.getCount();
+	Cook veganCook;
+	for (int i = 0; i < numOfveganCooks; i++)
+	{
+		veganCook = vegancookslist.getkth(i);
+		if (veganCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(veganCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfnormalCooks = normalcookslist.getCount();
+	Cook normalCook;
+	for (int i = 0; i < numOfnormalCooks; i++)
+	{
+		normalCook = normalcookslist.getkth(i);
+		if (normalCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new NormalGUIElement(normalCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfvipCooks = vipcookslist.getCount();
+	Cook vipCook;
+	for (int i = 0; i < numOfvipCooks; i++)
+	{
+		vipCook = vipcookslist.getkth(i);
+		if (vipCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VIPGUIElement(vipCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	//Drawing in service orders list
+
+	//Drawing Finished orders
+	int numOfFinishedOrders = size(Finished_Orders);
+	Order finishedOrder;
+	for (int i = 0; i < numOfFinishedOrders; i++)
+	{
 	}
 }
 
@@ -182,6 +250,9 @@ void Restaurant::load_from_file(string filename)
 	 e >> n_autopromote;
 	 stringstream o(lines[4]);
 	 o >> m;
+
+	 totl_num_cooks = ncooks_n + ncooks_veg + ncooks_vip;
+	  
 	 //populating cooks lists
 	 //convention, normal cooks ids will usually be in the 10s, veg will be in the 50s, and vip will be in the 100s
 	 for (int i = 0; i < ncooks_n;i++)
@@ -209,6 +280,7 @@ void Restaurant::load_from_file(string filename)
 	 // populating orders & event lists and queues
 	 string ev_type; int a_t, i_d, n_dish; double cost, prom_cost; ORD_TYPE O_t;
 
+	 int n_orders;
 	 for (int i = 5; i < m+5; i++)  
 
 	 { 
@@ -233,6 +305,7 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_NRM;
 				//Order OOn(i_d, O_t);
 				//normalorders.InsertEnd(OOn);
+				n_orders++;
 			}
 
 			else if (Oo_t == "V")
@@ -304,8 +377,10 @@ void Restaurant::save_to_file(string filename)
 	outfile << "FT  ID  AT  W  ST" << "\n";
 	int sumserv,serv;
 	for (int i = 0; i < Finished_Orders.count(); i++) {
+	for (int i = 0; i < totl_num_orders; i++) {
 		
 		Finished_Orders.dequeue(O);
+		O= Finished_Orders[i];
 		wait = O.GetFinish() - O.getAT();
 		sumwait += wait;
 		serv = O.getST();
@@ -318,6 +393,7 @@ void Restaurant::save_to_file(string filename)
 	outfile << "...............................\n";
 	outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
 	outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
+	outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
 	outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 	outfile << "\n autopromoted : " << n_autopromoted;
 
@@ -340,13 +416,16 @@ Queue<Order> Restaurant::getVeganOrders()
 }
 
 Queue<Order> Restaurant::getFinishedOrders()
+Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
 
 Order Restaurant::getInserviceList()
+Order* Restaurant::getInserviceList()
 {
 	return &inserviceList;
+	return inserviceList;
 
 }
 
@@ -361,6 +440,8 @@ void Restaurant::pickOneOrder()
 	normalorders.DeleteFirst();
 	inservice++;
 	Node<Order> *headvegan = veganorders.peekFront();
+	Order headvegan;
+	veganorders.dequeue(headvegan);
 
 	
 

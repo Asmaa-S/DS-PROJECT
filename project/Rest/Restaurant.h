@@ -24,6 +24,7 @@
 class Restaurant  
 {	
 private:
+public:
 	int n_autopromoted=0;
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
@@ -40,6 +41,10 @@ public:
 	LinkedList<Order> viporders; //
 	Queue<Order> Finished_Orders;
 	int inservice;
+	int totl_num_orders;
+	int totl_num_cooks; 
+	Order* Finished_Orders= new Order [totl_num_orders];
+	
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -60,8 +65,11 @@ public:
 	LinkedList<Order> getVipOrders();
 	Queue<Order> getVeganOrders();
 	Queue<Order> getFinishedOrders();
+	Order* getFinishedOrders();
 	Order getInserviceList();
 	void pickOneOrder();
+	void simpleSimulator();
+	void insertInserviceOrder(ORD_TYPE x);
 
 	// TODO: Add More Member Functions As Needed
 	//

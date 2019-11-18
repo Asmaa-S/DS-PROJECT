@@ -47,4 +47,12 @@ void Cook::give_order(Order &o) {
 void Cook::put_on_break() {
 	state = -1;
 }
+int Cook::getState() const
+{
+	return state;
+}
+void Cook::setState(int i)
+{
+	state = i;
+}
 
