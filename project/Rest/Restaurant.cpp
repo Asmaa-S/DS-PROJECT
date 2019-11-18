@@ -373,7 +373,6 @@ void Restaurant::save_to_file(string filename)
 	}
 
 	int v_co= vipcookslist.getCount(), g_co=vegancookslist.getCount(), n_co= normalcookslist.getCount();
-	int n_ord = Finished_Orders.count();
 	int n_ord = sizeof(Finished_Orders);
 	int n_co= totl_num_cooks;
 	int n_ord = totl_num_orders;
@@ -381,11 +380,9 @@ void Restaurant::save_to_file(string filename)
 	int sumwait = 0, wait;
 	outfile << "FT  ID  AT  W  ST" << "\n";
 	int sumserv,serv;
-	for (int i = 0; i < Finished_Orders.count(); i++) {
 	for (int i = 0; i < sizeof(Finished_Orders); i++) {
 	for (int i = 0; i < totl_num_orders; i++) {
 		
-		Finished_Orders.dequeue(O);
 		O= Finished_Orders[i];
 		wait = O.GetFinish() - O.getAT();
 		sumwait += wait;
@@ -406,12 +403,7 @@ void Restaurant::save_to_file(string filename)
 }
 
 
-LinkedList<Order> Restaurant::getNormalOrders()
-{
-	return normalorders;
-}
 
-LinkedList<Order> Restaurant::getVipOrders()
 
 	LinkedList<Order> Restaurant::getNormalOrders()
 	{
