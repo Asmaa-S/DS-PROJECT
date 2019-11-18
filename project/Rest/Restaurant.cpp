@@ -372,6 +372,8 @@ void Restaurant::save_to_file(string filename)
 
 	int v_co= vipcookslist.getCount(), g_co=vegancookslist.getCount(), n_co= normalcookslist.getCount();
 	int n_ord = Finished_Orders.count();
+	int n_co= totl_num_cooks;
+	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
 	outfile << "FT  ID  AT  W  ST" << "\n";
