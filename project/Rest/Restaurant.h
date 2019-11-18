@@ -35,8 +35,11 @@ public:
 
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
-	Queue<Order> Finished_Orders;
 	int inservice[100];
+	int totl_num_orders;
+	int totl_num_cooks; 
+	Order* Finished_Orders= new Order [totl_num_orders];
+	
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -56,7 +59,7 @@ public:
 	LinkedList<Order> getNormalOrders();
 	LinkedList<Order> getVipOrders();
 	Queue<Order> getVeganOrders();
-	Queue<Order> getFinishedOrders();
+	Order* getFinishedOrders();
 	Order getInserviceList();
 	void insertInserviceOrder(ORD_TYPE x);
 

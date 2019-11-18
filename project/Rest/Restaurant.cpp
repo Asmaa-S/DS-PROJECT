@@ -217,6 +217,9 @@ void Restaurant::load_from_file(string filename)
 	 e >> n_autopromote;
 	 stringstream o(lines[4]);
 	 o >> m;
+
+	 totl_num_cooks = ncooks_n + ncooks_veg + ncooks_vip;
+	  
 	 //populating cooks lists
 	 //convention, normal cooks ids will usually be in the 10s, veg will be in the 50s, and vip will be in the 100s
 	 for (int i = 0; i < ncooks_n;i++)
@@ -243,7 +246,7 @@ void Restaurant::load_from_file(string filename)
 
 	 // populating orders & event lists and queues
 	 string ev_type; int a_t, i_d, n_dish; double cost, prom_cost; ORD_TYPE O_t;
-
+	 int n_orders;
 	 for (int i = 5; i < m+5; i++)  
 
 	 { 
@@ -268,6 +271,7 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_NRM;
 				//Order OOn(i_d, O_t);
 				//normalorders.InsertEnd(OOn);
+				n_orders++;
 			}
 
 			else if (Oo_t == "V")
@@ -332,15 +336,15 @@ void Restaurant::save_to_file(string filename)
 		exit(1);   // call system to stop
 	}
 
-	int v_co= vipcookslist.getCount(), g_co=vegancookslist.getCount(), n_co= normalcookslist.getCount();
-	int n_ord = Finished_Orders.count();
+	int n_co= totl_num_cooks;
+	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
 	outfile << "FT  ID  AT  W  ST" << "\n";
 	int sumserv,serv;
-	for (int i = 0; i < Finished_Orders.count(); i++) {
+	for (int i = 0; i < totl_num_orders; i++) {
 		
-		Finished_Orders.dequeue(O);
+		O= Finished_Orders[i];
 		wait = O.GetFinish() - O.getAT();
 		sumwait += wait;
 		serv = O.getST();
@@ -352,7 +356,7 @@ void Restaurant::save_to_file(string filename)
 	}
 	outfile << "...............................\n";
 	outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
-	outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
+	outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
 	outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 	outfile << "\n autopromoted : " << n_autopromoted;
 
@@ -374,7 +378,7 @@ Queue<Order> Restaurant::getVeganOrders()
 	return veganorders;
 }
 
-Queue<Order> Restaurant::getFinishedOrders()
+Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
