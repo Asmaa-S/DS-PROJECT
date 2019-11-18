@@ -22,13 +22,15 @@ protected:
 public:
 	Order();
 	Order(int ID, ORD_TYPE r_Type);
+	Order(int arrivalTime,int ID, ORD_TYPE r_Type, int size, double money);
+
 	virtual ~Order();
 
 	int get_stept_bef_autopromote();
 	void set_stept_bef_autopromote(int s);
 	int GetID();
 
-	ORD_TYPE GetType() const;
+	ORD_TYPE GetType() const; //azon m7tagen settype 3lshan el promotion
 
 	void SetDishes(int d);
 	int GetDishes() const;
@@ -37,13 +39,20 @@ public:
 	int GetFinish() const;
 
 	
-	void setStatus(ORD_STATUS s);
+	void setStatus(ORD_STATUS s); //order statues : wait, service, done
 	ORD_STATUS getStatus() const;
+
 	void setAT(int s); //arrivl time
 	int getAT() const;
 
 	void setST(int s); //servicetime
 	int getST() const;
+
+	void setMoney(double money); //total order money
+	double getMoney() const;
+
+	void setVIPpriority(int p); // VIP order Priority
+	int getVIPpriority(); //go and give them definition
 	
 	double getPriority();
 	//
