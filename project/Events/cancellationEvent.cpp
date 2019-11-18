@@ -4,6 +4,7 @@
 
 cancellationEvent::cancellationEvent(int eTime, int oID): Event(eTime, oID)
 {
+	
 	et = X;
 
 }
