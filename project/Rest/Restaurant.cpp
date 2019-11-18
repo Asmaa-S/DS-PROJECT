@@ -428,19 +428,16 @@ Queue<Order> Restaurant::getVeganOrders()
 	return veganorders;
 }
 
-Queue<Order> Restaurant::getFinishedOrders()
 
 Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
 
-Order Restaurant::getInserviceList()
 
 Order* Restaurant::getInserviceList()
 {
 	return &inserviceList;
-	return inserviceList;
 }
 
 void Restaurant::moveToFinished()
@@ -476,7 +473,6 @@ void Restaurant::pickOneOrder()
 	Node<Order> *headvegan = veganorders.peekFront();
 	Order headvegan;
 	veganorders.dequeue(headvegan);
-
 	
 
 }
