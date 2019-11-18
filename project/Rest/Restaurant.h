@@ -30,11 +30,12 @@ private:
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
-
+	Order inserviceList;
 	Queue<Order> veganorders;
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
 	Queue<Order> Finished_Orders;
+	int inservice[100];
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -56,6 +57,9 @@ public:
 	LinkedList<Order> getVipOrders();
 	Queue<Order> getVeganOrders();
 	Queue<Order> getFinishedOrders();
+	Order getInserviceList();
+	void insertInserviceOrder(ORD_TYPE x);
+
 	// TODO: Add More Member Functions As Needed
 	//
 

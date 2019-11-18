@@ -224,20 +224,20 @@ void Restaurant::load_from_file(string filename)
 			string Oo_t = lines[i].substr(4, 1);
 			if (Oo_t == "N") {
 				O_t = TYPE_NRM;
-				Order OOn(i_d, O_t);
-				normalorders.InsertEnd(OOn);
+				//Order OOn(i_d, O_t);
+				//normalorders.InsertEnd(OOn);
 			}
 
 			else if (Oo_t == "V")
 			{
 				O_t = TYPE_VIP;
-<<<<<<< HEAD
-				Order OOv(i_d, O_t);
-				viporders.InsertSorted(OOv);
-=======
-				Order OOv(i_d, O_t);
-				viporders.InsertEnd(OOv);
->>>>>>> f4110f74ef9eeff794d931c10aa38ccf8a6da1a5
+				//Order OOv(i_d, O_t);
+				//viporders.InsertSorted(OOv);
+
+				//Order OOv(i_d, O_t);
+				//viporders.InsertEnd(OOv);
+
+
 
 			}
 			else
@@ -315,7 +315,7 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\n autopromoted : " << n_autopromoted;
 
 }
-<<<<<<< HEAD
+
 
 LinkedList<Order> Restaurant::getNormalOrders()
 {
@@ -337,10 +337,15 @@ Queue<Order> Restaurant::getFinishedOrders()
 	return Finished_Orders;
 }
 
+Order Restaurant::getInserviceList()
+{
+	return inserviceList;
 
-=======
+}
+
+
 bool Restaurant::EventsQueueIsEmpty()
 { // this function checks if the Event Queue is empty or not
 	return EventsQueue.isEmpty();
 }
->>>>>>> f4110f74ef9eeff794d931c10aa38ccf8a6da1a5
+

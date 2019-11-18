@@ -207,6 +207,36 @@ public:
 		return false;
 	}
 
+
+	//overload function for class order for cancellation
+	bool DeleteNode(const int &ID) {
+		//cout << "\nDeleting the element " << value << endl;
+		if (Head == nullptr) {
+			return false;
+		}
+
+		
+		Node<Order> *p = Head;
+		Node<Order> *q = p->getNext();
+
+		if (p->getItem().GetID == value) {
+			DeleteFirst();
+			return true;
+		}
+
+		while (q) {
+			if (q->getItem().GetID == ID) {
+				p->setNext(q->getNext());
+				delete q;
+				count--;
+				return true;
+			}
+			p = q;
+			q = p->getNext();
+		}
+		return false;
+	}
+
 	//[7] DeleteNodes
 	//deletes ALL node with the given value (if found) and returns true
 	//if not found, returns false
