@@ -95,9 +95,8 @@ void Restaurant::FillDrawingList()
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
 	//It should get orders from orders lists/queues/stacks/whatever (same for cook
-	//how to draw cooks?
 
-	//draw order list
+	//draw  waiting order list
 	int numOfVeganOrders = veganorders.count;
 	Order vOrder;
 	for (int i = 0; i<numOfVeganOrders;i++)
@@ -121,6 +120,9 @@ void Restaurant::FillDrawingList()
 		vipOrder = viporders.getkth(i);
 		pGUI->addGUIDrawable(new VIPGUIElement(vipOrder.GetID(), GUI_REGION::ORD_REG));
 	}
+	//Drawing Available cooks list
+	//Drawing in service orders list
+	//Drawing Finished orders
 }
 
 void Restaurant::load_from_file(string filename)
