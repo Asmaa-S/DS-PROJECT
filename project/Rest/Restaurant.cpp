@@ -96,23 +96,23 @@ void Restaurant::FillDrawingList()
 	//It should add ALL orders and cooks to the drawing list
 	//It should get orders from orders lists/queues/stacks/whatever (same for cook
 	//how to draw cooks?
-	/*Queue<Order> vegantemp;
+	int numOfVeganOrders = veganorders.count;
 	Order vOrder;
-	while (!veganorders.isEmpty())
+	for (int i = 0; i<numOfVeganOrders;i++)
 	{ 
 		veganorders.dequeue(vOrder);
-		if (vOrder.setAT <= currentstep)
-		{
-			pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
-			vegantemp.enqueue(vOrder);
-		}
-		else
-		{
-			vegantemp.enqueue(vOrder);
-		}
+	    pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
+	    veganorders.enqueue(vOrder);
 
 	}
-	while*/
+	int numOfNormalOrders = normalorders.getCount();
+	Order nOrder;
+	for (int i = 0; i < numOfNormalOrders; i++)
+	{
+
+		//pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
+
+	}
 }
 
 void Restaurant::load_from_file(string filename)
@@ -207,7 +207,7 @@ void Restaurant::load_from_file(string filename)
 	 stringstream tt(lines[i].substr(2, 1));  
 		 tt >> a_t;  //arrival timestep
 
-		 //order arrival events & populating orders lists
+		 //order arrival events 
 	    if (ev_type=="R"){
 			//record id
 			stringstream tt1(lines[i].substr(6, 1));

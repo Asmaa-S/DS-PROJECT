@@ -30,6 +30,10 @@ public:
 	* Function: PrintList.
 	* prints the values of all nodes in a linked list.
 	*/
+	int getCount()
+	{
+		return count;
+	}
 	void PrintList()	const
 	{
 		cout << "\nList has " << count << " nodes";

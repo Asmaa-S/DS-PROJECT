@@ -30,8 +30,8 @@ private:
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
-
-	Queue<Order> veganorders;
+public:
+	Queue<Order> veganorders; //7atenahom public 3lshan elarrival wl cancelation events // check them back b2a
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
 
@@ -41,14 +41,13 @@ private:
 	//
 
 
-public:
+//public:
 	
 	Restaurant();
 	~Restaurant();
 	
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
-
 	void FillDrawingList();
 	bool EventsQueueIsEmpty();
 	void load_from_file(string filename);

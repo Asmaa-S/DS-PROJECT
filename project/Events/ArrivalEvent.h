@@ -12,6 +12,7 @@ class ArrivalEvent: public Event
 	double OrdMoney;	//Total order money
 public:
 	ArrivalEvent(int eTime, int oID, ORD_TYPE oType);
+	ArrivalEvent(int eTime, int oID, ORD_TYPE oType,int size, double money);
 	//Add more constructors if needed
 	
 	virtual void Execute(Restaurant *pRest);	//override execute function
