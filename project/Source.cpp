@@ -123,6 +123,7 @@ int main() {
 	int pause;
 	cin >> pause;
 }	
+	
 }
 /*
 int GUIDemo()
