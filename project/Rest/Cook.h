@@ -17,8 +17,10 @@ public:
 	virtual ~Cook();
 	int GetID() const;
 	ORD_TYPE GetType() const;
-	void setID(int);
-	void setType(ORD_TYPE) ;
+	int getState() const;
+	void setState(int i);
+	void setID(int i);
+	void setType(ORD_TYPE typ) ;
 	void give_order(Order &o);
 		void put_on_break();
 

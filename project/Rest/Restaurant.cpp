@@ -94,9 +94,70 @@ void Restaurant::FillDrawingList()
 {
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
-	//It should get orders from orders lists/queues/stacks/whatever (same for cooks)
+
+
+	//draw  waiting order list
+	int numOfVeganOrders = veganorders.count;
+	Order vOrder;
+	for (int i = 0; i<numOfVeganOrders;i++)
+	{ 
+		veganorders.dequeue(vOrder);
+	    pGUI->addGUIDrawable(new VeganGUIElement(vOrder.GetID(), GUI_REGION::ORD_REG));
+	    veganorders.enqueue(vOrder);
+
+	}
+	int numOfNormalOrders = normalorders.getCount();
+	Order nOrder;
+	for (int i = 0; i < numOfNormalOrders; i++)
+	{
+		nOrder = normalorders.getkth(i);
+		pGUI->addGUIDrawable(new NormalGUIElement(nOrder.GetID(), GUI_REGION::ORD_REG));
+	}
+	int numOfVIPOrders = viporders.getCount(); //m7tagen n7otohm mtrtben 3lshan nshl 3la nfsna el rsm 
+	Order vipOrder;
+	for (int i = 0; i < numOfVIPOrders; i++)
+	{
+		vipOrder = viporders.getkth(i);
+		pGUI->addGUIDrawable(new VIPGUIElement(vipOrder.GetID(), GUI_REGION::ORD_REG));
+	}
+	//Drawing Available cooks list
+	int numOfveganCooks = vegancookslist.getCount();
+	Cook veganCook;
+	for (int i = 0; i < numOfveganCooks; i++)
+	{
+		veganCook = vegancookslist.getkth(i);
+		if (veganCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(veganCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfnormalCooks = normalcookslist.getCount();
+	Cook normalCook;
+	for (int i = 0; i < numOfnormalCooks; i++)
+	{
+		normalCook = normalcookslist.getkth(i);
+		if (normalCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new NormalGUIElement(normalCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	int numOfvipCooks = vipcookslist.getCount();
+	Cook vipCook;
+	for (int i = 0; i < numOfvipCooks; i++)
+	{
+		vipCook = vipcookslist.getkth(i);
+		if (vipCook.getState() == 0)
+		{
+			pGUI->addGUIDrawable(new VIPGUIElement(vipCook.GetID(), GUI_REGION::COOK_REG));
+		}
+	}
+	//Drawing in service orders list
+
+	//Drawing Finished orders
 
 }
+
+
 
 void Restaurant::load_from_file(string filename)
 {   //open file
@@ -190,7 +251,7 @@ void Restaurant::load_from_file(string filename)
 	 stringstream tt(lines[i].substr(2, 1));  
 		 tt >> a_t;  //arrival timestep
 
-		 //order arrival events & populating orders lists
+		 //order arrival events 
 	    if (ev_type=="R"){
 			//record id
 			stringstream tt1(lines[i].substr(6, 1));
@@ -205,15 +266,20 @@ void Restaurant::load_from_file(string filename)
 			string Oo_t = lines[i].substr(4, 1);
 			if (Oo_t == "N") {
 				O_t = TYPE_NRM;
-				Order OOn(i_d, O_t);
-				normalorders.InsertEnd(OOn);
+				//Order OOn(i_d, O_t);
+				//normalorders.InsertEnd(OOn);
 			}
 
 			else if (Oo_t == "V")
 			{
 				O_t = TYPE_VIP;
-				Order OOv(i_d, O_t);
-				viporders.InsertEnd(OOv);
+				//Order OOv(i_d, O_t);
+				//viporders.InsertSorted(OOv);
+
+				//Order OOv(i_d, O_t);
+				//viporders.InsertEnd(OOv);
+
+
 
 			}
 			else
@@ -291,3 +357,37 @@ void Restaurant::save_to_file(string filename)
 	outfile << "\n autopromoted : " << n_autopromoted;
 
 }
+
+
+LinkedList<Order> Restaurant::getNormalOrders()
+{
+	return normalorders;
+}
+
+LinkedList<Order> Restaurant::getVipOrders()
+{
+	return viporders;
+}
+
+Queue<Order> Restaurant::getVeganOrders()
+{
+	return veganorders;
+}
+
+Queue<Order> Restaurant::getFinishedOrders()
+{
+	return Finished_Orders;
+}
+
+Order Restaurant::getInserviceList()
+{
+	return inserviceList;
+
+}
+
+
+bool Restaurant::EventsQueueIsEmpty()
+{ // this function checks if the Event Queue is empty or not
+	return EventsQueue.isEmpty();
+}
+

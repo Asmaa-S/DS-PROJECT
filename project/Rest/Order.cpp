@@ -10,9 +10,22 @@ Order::Order(int id, ORD_TYPE r_Type)
 	type = r_Type;
 	status = WAIT;
 	if (r_Type == TYPE_VIP)
-		vip_priority = int(totalMoney) - Dishes - ArrTime;
+		vip_priority = int(totalMoney) - Dishes - ArrTime; 
 
 }
+Order::Order(int arrivalTime,int id, ORD_TYPE r_Type, int size, double money)
+{
+	ArrTime = arrivalTime;
+	ID = (id > 0 && id < 1000) ? id : 0;	//1<ID<999
+	type = r_Type;
+	status = WAIT;
+	Dishes = size;
+	totalMoney = money;
+
+	if (r_Type == TYPE_VIP)
+		vip_priority = int(totalMoney) - Dishes - ArrTime; //change pripority equation if needed
+}
+
 
 Order::~Order()
 {
@@ -84,6 +97,11 @@ void Order::setST(int s)
 int Order::getST() const
 {
 	return ServTime;
+}
+
+double Order::getPriority()
+{
+	return (2 * totalMoney - 0.5 * ServTime - Dishes);
 }
 
 

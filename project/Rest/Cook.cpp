@@ -11,6 +11,7 @@ Cook::Cook(int id, ORD_TYPE typ, int sp, int br)
 	type = typ;
 	speed = sp;
 	break_duration = br;
+	state = 0;
 }
 
 
@@ -45,5 +46,13 @@ void Cook::give_order(Order &o) {
 }
 void Cook::put_on_break() {
 	state = -1;
+}
+int Cook::getState() const
+{
+	return state;
+}
+void Cook::setState(int i)
+{
+	state = i;
 }
 

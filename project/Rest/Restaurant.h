@@ -17,40 +17,49 @@
 #include<algorithm>
 #include <time.h> 
 #include <sstream> 
+#include "..\GUI\GUIDrawables\NormalGUIElement.h"
+#include "..\GUI\GUIDrawables\VeganGUIElement.h"
+#include "..\GUI\GUIDrawables\VIPGUIElement.h"
 // it is the maestro of the project
 class Restaurant  
 {	
-private:
+public:
 	int n_autopromoted=0;
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
+	Order inserviceList;
+	Queue<Order> veganorders; //7atenahom public 3lshan elarrival wl cancelation events // check them back b2a
 
-	Queue<Order> veganorders;
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
-
 	Queue<Order> Finished_Orders;
+	int inservice[100];
 	//
 	// TODO: Add More Data Members As Needed
 	//
 
 
-public:
+//public:
 	
 	Restaurant();
 	~Restaurant();
 	
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
-
 	void FillDrawingList();
-
+	bool EventsQueueIsEmpty();
 	void load_from_file(string filename);
 	void save_to_file(string filename);
-	//
+	LinkedList<Order> getNormalOrders();
+	LinkedList<Order> getVipOrders();
+	Queue<Order> getVeganOrders();
+	Queue<Order> getFinishedOrders();
+	Order getInserviceList();
+	void insertInserviceOrder(ORD_TYPE x);
+
 	// TODO: Add More Member Functions As Needed
 	//
 
