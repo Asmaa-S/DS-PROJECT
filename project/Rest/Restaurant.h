@@ -58,6 +58,7 @@ public:
 	Queue<Order> getVeganOrders();
 	Queue<Order> getFinishedOrders();
 	Order getInserviceList();
+	void simpleSimulator();
 	void insertInserviceOrder(ORD_TYPE x);
 
 	// TODO: Add More Member Functions As Needed

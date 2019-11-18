@@ -8,69 +8,18 @@
 #include "GUI\GUIDrawables\VIPGUIElement.h"
 #include "GUI\GUI.h"
 #include<iostream>
-/*
-int GUIDemo()
-{
-	GUI gui;
-	gui.initSimMode();
 
-	int steps = 1;
-
-	while(true) {
-		if(steps % 5 == 0) {
-			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
-		}
-
-		for(int i = 0; i < steps; i++) {
-			gui.addGUIDrawable(new VIPGUIElement(i, GUI_REGION::ORD_REG));
-			gui.addGUIDrawable(new NormalGUIElement(i, GUI_REGION::COOK_REG));
-			gui.addGUIDrawable(new VeganGUIElement(i, GUI_REGION::SRV_REG));
-			gui.addGUIDrawable(new VIPGUIElement(i, GUI_REGION::DONE_REG));
-		}
-
-		gui.updateInterface();
-		gui.handleSimGUIEvents();
-		// For Interactive mode
-		gui.waitForClick();
-		// For step-by-step mode
-		gui.sleep(100);
-		steps++;
-	}
-	
-	return 0;
-}*/
 
 void removeSpaces(string &line);
-void simpleSimulator()
-{
-	GUI gui;
-	gui.initSimMode(); 
-	int step = 1; // initialize 
-	Restaurant* pRest = new Restaurant; //create resturant object
 
-
-	while (!pRest->EventsQueueIsEmpty()) //working until there are no more events nor active orders in the system 
-										 //fadl el active orders tt7t ezay
-	{
-		gui.printStringInStatusBar("Current Time: " + std::to_string(step)); //update status bar with currunt time
-		
-		gui.handleSimGUIEvents();
-		gui.waitForClick();
-		step++; //increase time by one
-	}
-	delete pRest;
-
-}
 
 int main() {
+
+	Restaurant* pRest = new Restaurant;
+	pRest->simpleSimulator();
+	int pause;
+	cin >> pause;
 	
-	//GUIDemo();
-	simpleSimulator();
-
-	//Restaurant* pRest = new Restaurant;
-
-	//delete pRest;
-
   // testing load from file 
 
 
@@ -115,6 +64,36 @@ int main() {
 	int x;
 	cin >> x;
 	*/
-	int pause;
-	cin >> pause;
+	
 }
+/*
+int GUIDemo()
+{
+	GUI gui;
+	gui.initSimMode();
+
+	int steps = 1;
+
+	while(true) {
+		if(steps % 5 == 0) {
+			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
+		}
+
+		for(int i = 0; i < steps; i++) {
+			gui.addGUIDrawable(new VIPGUIElement(i, GUI_REGION::ORD_REG));
+			gui.addGUIDrawable(new NormalGUIElement(i, GUI_REGION::COOK_REG));
+			gui.addGUIDrawable(new VeganGUIElement(i, GUI_REGION::SRV_REG));
+			gui.addGUIDrawable(new VIPGUIElement(i, GUI_REGION::DONE_REG));
+		}
+
+		gui.updateInterface();
+		gui.handleSimGUIEvents();
+		// For Interactive mode
+		gui.waitForClick();
+		// For step-by-step mode
+		gui.sleep(100);
+		steps++;
+	}
+
+	return 0;
+}*/

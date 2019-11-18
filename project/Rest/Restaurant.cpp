@@ -62,7 +62,34 @@ void Restaurant::RunSimulation()
 
 }
 
+void Restaurant::simpleSimulator()
+{	// initialize 
+	pGUI = new GUI;
+	pGUI->initSimMode();
+	int step = 1; 
 
+	//loadfile
+
+	while (!this->EventsQueueIsEmpty()|| !veganorders.isEmpty() || normalorders.getCount() !=0 || viporders.getCount() !=0) //ba2y 2zwd el in service list
+	{	//excute current time step events
+		ExecuteEvents(step);
+		//pick one order
+
+		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
+
+		//update interface
+		this->FillDrawingList(); 
+		pGUI->updateInterface();
+		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step)); //update status bar with currunt time
+		pGUI->printStringInStatusBar("  No Of Vegan Waiting orders: " + std::to_string(veganorders.count())+ "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount())+ "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount()));
+		pGUI->printStringInStatusBar("  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
+		pGUI->updateInterface();
+		pGUI->handleSimGUIEvents();
+		pGUI->waitForClick();
+		step++; //increase time by one
+	}
+
+}
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
 
@@ -154,7 +181,11 @@ void Restaurant::FillDrawingList()
 	//Drawing in service orders list
 
 	//Drawing Finished orders
-
+	int numOfFinishedOrders = Finished_Orders.count();
+	Order finishedOrder;
+	for (int i = 0; i < numOfFinishedOrders; i++)
+	{
+	}
 }
 
 
