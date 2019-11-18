@@ -184,7 +184,6 @@ void Restaurant::FillDrawingList()
 	//Drawing in service orders list
 
 	//Drawing Finished orders
-	int numOfFinishedOrders = size(Finished_Orders);
 	int numOfFinishedOrders = sizeof(Finished_Orders);
 	Order finishedOrder;
 	for (int i = 0; i < numOfFinishedOrders; i++)
