@@ -136,7 +136,6 @@
     <ClCompile Include="GUI\GUIWindows\StartingScreen.cpp" />
     <ClCompile Include="GUI\GUIWindows\TextArea.cpp" />
     <ClCompile Include="Events\promotionEvent.cpp" />
-    <ClCompile Include="PROMOTIONEVENT.CPP" />
     <ClCompile Include="Rest\Cook.cpp" />
     <ClCompile Include="Rest\Order.cpp" />
     <ClCompile Include="Rest\Restaurant.cpp" />

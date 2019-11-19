@@ -25,23 +25,22 @@ class Restaurant
 {	
 public:
 	int n_autopromoted=0;
+	int totl_num_orders;
+	int totl_num_cooks;
+	int numOfFinishedOrders = 0;
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
-	Queue<Order> veganorders;
+	
+	LinkedList<Order> inserviceList;
 
-public:
-	Order* inserviceList= new Order [inservice];
-	Queue<Order> veganorders; //7atenahom public 3lshan elarrival wl cancelation events // check them back b2a
-
+	Queue<Order> veganorders; 
 	LinkedList<Order> normalorders;
-	LinkedList<Order> viporders; //
-	int inservice;
+	LinkedList<Order> viporders; 
 
-	int totl_num_orders;
-	int totl_num_cooks; 
+	
 	Order* Finished_Orders= new Order [totl_num_orders];
 
 	//
@@ -66,7 +65,7 @@ public:
 	Order* getFinishedOrders();
 	Order* getInserviceList();
 	void pickOneOrder();
-
+	void moveToFinished();
 	void simpleSimulator();
 
 	// TODO: Add More Member Functions As Needed

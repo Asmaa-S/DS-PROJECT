@@ -69,21 +69,32 @@ void Restaurant::simpleSimulator()
 	int step = 1; 
 
 	//loadfile
+	load_from_file("Inputfile.txt");
 
-	while (!this->EventsQueueIsEmpty()|| !veganorders.isEmpty() || normalorders.getCount() !=0 || viporders.getCount() !=0) //ba2y 2zwd el in service list
-	{	//excute current time step events
+
+	while (!this->EventsQueueIsEmpty()|| !veganorders.isEmpty() || normalorders.getCount() !=0 || viporders.getCount() !=0 || inserviceList.getCount() != 0)
+	{	//update interface
+		this->FillDrawingList();
+		pGUI->updateInterface();
+		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step) + "\n" + "  No Of Vegan Waiting orders: " + std::to_string(veganorders.count()) + "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount()) + "\n" + "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount()) + "  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "\n" + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
+		pGUI->handleSimGUIEvents();
+		//excute current time step events
 		ExecuteEvents(step);
+	
+
 		//pick one order
+		pickOneOrder();
 
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
+		if (step % 5 == 0)
+		{
+			moveToFinished();
+		}
 
-		//update interface
-		this->FillDrawingList(); 
-		pGUI->updateInterface();
-		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step)+ "/n"+"  No Of Vegan Waiting orders: " + std::to_string(veganorders.count()) + "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount()) + "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount())+"/n" +"  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
-		pGUI->updateInterface();
-		pGUI->handleSimGUIEvents();
+		
+		//pGUI->updateInterface();
 		pGUI->waitForClick();
+		
 		step++; //increase time by one
 	}
 
@@ -117,15 +128,8 @@ Restaurant::~Restaurant()
 
 void Restaurant::FillDrawingList()
 {
-	//This function should be implemented in phase1
-	//It should add ALL orders and cooks to the drawing list
-	//It should get orders from orders lists/queues/stacks/whatever (same for cooks)
-	//how to draw cooks?
-
-	//draw order list
-
 	//draw  waiting order list
-	int numOfVeganOrders = veganorders.count;
+	int numOfVeganOrders = veganorders.count();
 	Order vOrder;
 	for (int i = 0; i<numOfVeganOrders;i++)
 	{ 
@@ -180,13 +184,43 @@ void Restaurant::FillDrawingList()
 		}
 	}
 	//Drawing in service orders list
+	Order inServiceOrder;
+	int numOfInServiceOrder = inserviceList.getCount();
+	for (int i = 0; i < numOfInServiceOrder; i++)
+	{
+		inServiceOrder = inserviceList.getkth(i);
+		if (inServiceOrder.GetType() == TYPE_VEG)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(inServiceOrder.GetID(), GUI_REGION::SRV_REG));
+		}
+		else if (inServiceOrder.GetType() == TYPE_VIP)
+		{
+			pGUI->addGUIDrawable(new VIPGUIElement(inServiceOrder.GetID(), GUI_REGION::SRV_REG));
+		}
+		else if (inServiceOrder.GetType() == TYPE_NRM)
+		{
+			pGUI->addGUIDrawable(new NormalGUIElement(inServiceOrder.GetID(), GUI_REGION::SRV_REG));
+		}
+		
+	}
 
 	//Drawing Finished orders
-
-	int numOfFinishedOrders = sizeof(Finished_Orders);
 	Order finishedOrder;
 	for (int i = 0; i < numOfFinishedOrders; i++)
 	{
+		finishedOrder = Finished_Orders[i];
+		if (finishedOrder.GetType() == TYPE_VEG)
+		{
+			pGUI->addGUIDrawable(new VeganGUIElement(finishedOrder.GetID(), GUI_REGION::DONE_REG));
+		}
+		else if (finishedOrder.GetType() == TYPE_VIP)
+		{
+			pGUI->addGUIDrawable(new VIPGUIElement(finishedOrder.GetID(), GUI_REGION::DONE_REG));
+		}
+		else if (finishedOrder.GetType() == TYPE_NRM)
+		{
+			pGUI->addGUIDrawable(new NormalGUIElement(finishedOrder.GetID(), GUI_REGION::DONE_REG));
+		}
 	}
 }
 
@@ -280,7 +314,7 @@ void Restaurant::load_from_file(string filename)
 	 // populating orders & event lists and queues
 	 string ev_type; int a_t, i_d, n_dish; double cost, prom_cost; ORD_TYPE O_t;
 
-	 int n_orders;
+	 int n_orders = 0; //leh byzed fe 7eta wa7da bs?
 	 for (int i = 5; i < m+5; i++)  
 
 	 { 
@@ -323,8 +357,8 @@ void Restaurant::load_from_file(string filename)
 			else
 			{
 				O_t = TYPE_VEG;
-				Order OOg(i_d, O_t);
-				veganorders.enqueue(OOg);
+				//Order OOg(i_d, O_t);
+				//veganorders.enqueue(OOg);
 			}
 			Event* evv = new ArrivalEvent(a_t, i_d, O_t);
 
@@ -356,12 +390,13 @@ void Restaurant::load_from_file(string filename)
 		}
 		 
 	 }
-	// int vbvvmn = EventsQueue.count();
+	 int vbvvmn = EventsQueue.count();
 	
 }
-void Restaurant::save_to_file(string filename)
+//change sizeof to numOffinishedorders
+/*void Restaurant::save_to_file(string filename)
 {
-	ofstream outfile; 
+	ofstream outfile;
 	outfile.open(filename.c_str(), ios::out | ios::trunc);
 
 	//checking for opening failure:
@@ -370,38 +405,36 @@ void Restaurant::save_to_file(string filename)
 		exit(1);   // call system to stop
 	}
 
-	int v_co= vipcookslist.getCount(), g_co=vegancookslist.getCount(), n_co= normalcookslist.getCount();
+	int v_co = vipcookslist.getCount(), g_co = vegancookslist.getCount(), n_co = normalcookslist.getCount();
 	int n_ord = sizeof(Finished_Orders);
-	int n_co= totl_num_cooks;
+	int n_co = totl_num_cooks;
 	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
 	outfile << "FT  ID  AT  W  ST" << "\n";
-	int sumserv,serv;
+	int sumserv, serv;
 	for (int i = 0; i < sizeof(Finished_Orders); i++) {
-	for (int i = 0; i < totl_num_orders; i++) {
-		
-		O= Finished_Orders[i];
-		wait = O.GetFinish() - O.getAT();
-		sumwait += wait;
-		serv = O.getST();
-		sumserv += serv;
-		outfile << O.GetID() << "\t\t" << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
+		for (int i = 0; i < totl_num_orders; i++) {
 
-		outfile << "\n";
-		
+			O = Finished_Orders[i];
+			wait = O.GetFinish() - O.getAT();
+			sumwait += wait;
+			serv = O.getST();
+			sumserv += serv;
+			outfile << O.GetID() << "\t\t" << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
+
+			outfile << "\n";
+
+		}
+		outfile << "...............................\n";
+		outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
+		outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
+		outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
+		outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
+		outfile << "\n autopromoted : " << n_autopromoted;
+
 	}
-	outfile << "...............................\n";
-	outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
-	outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
-	outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
-	outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
-	outfile << "\n autopromoted : " << n_autopromoted;
-
-}
-
-
-
+}*/
 
 	LinkedList<Order> Restaurant::getNormalOrders()
 	{
@@ -425,46 +458,75 @@ Order* Restaurant::getFinishedOrders()
 }
 
 
-Order* Restaurant::getInserviceList()
-{
-	return &inserviceList;
-}
 
 void Restaurant::moveToFinished()
 {
-	int x =0;
-	int f = 0;
-	ORD_TYPE finished[3];
-	for (int i = 0; i < sizeof(inserviceList); i++)
+	int veganflag = 0;
+	int vipflag = 0;
+	int normalflag = 0;
+	int veganID, vipID, normalID;
+	ORD_TYPE type;
+	int count = inserviceList.getCount();
+	for (int i = 0; i < count; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		type = inserviceList.getkth(i).GetType();
+		if (type == TYPE_VEG && veganflag == 0)
 		{
-			if (inserviceList[i].getType() == Finished_Orders[j])
-				f = 1;
-
+			Finished_Orders[numOfFinishedOrders] = inserviceList.getkth(i);
+			numOfFinishedOrders++;
+			veganID = inserviceList.getkth(i).GetID();
+			veganflag = 1;
 		}
-		if (f == 1) break;
-		Finished_Orders[size(Finished_Orders) - 1] = inserviceList[i];
+		else if (type == TYPE_VIP && vipflag == 0)
+		{
+			Finished_Orders[numOfFinishedOrders] = inserviceList.getkth(i);
+			numOfFinishedOrders++;
+			vipID = inserviceList.getkth(i).GetID();
+			vipflag = 1;
+		}
+		else if (type == TYPE_NRM && normalflag == 0)
+		{
+			Finished_Orders[numOfFinishedOrders] = inserviceList.getkth(i);
+			numOfFinishedOrders++;
+			normalID = inserviceList.getkth(i).GetID();
+			normalflag = 1;
+		}
+		if (normalflag == 1 && vipflag == 1 && veganflag == 1)
+		{
+			break;
+		}
 	}
-	if (x == 3) break;
-
+	if (veganflag == 1)
+	{
+		inserviceList.DelNode(veganID);
+	}
+	if (normalflag == 1)
+	{
+		inserviceList.DelNode(normalID);
+	}
+	if (vipflag == 1)
+	{
+		inserviceList.DelNode(vipID);
+	}
 }
 
 void Restaurant::pickOneOrder()
 {
-	Node<Order> *headvip =viporders.getHead();
-	inserviceList[inservice] = headvip->getItem();
-	viporders.DeleteFirst();
-	inservice++;
-	Node<Order> *headnormal = normalorders.getHead();
-	inserviceList[inservice] = headnormal->getItem();
-	normalorders.DeleteFirst();
-	inservice++;
-	Node<Order> *headvegan = veganorders.peekFront();
-	Order headvegan;
-	veganorders.dequeue(headvegan);
-	
-
+	if (viporders.getCount() > 0) {
+		Order vipOrder = viporders.getkth(0); 
+		viporders.DeleteFirst();
+		inserviceList.InsertEnd(vipOrder);
+	}
+	if (normalorders.getCount() > 0) {
+		Order normalOrder = normalorders.getkth(0); 
+		normalorders.DeleteFirst();
+		inserviceList.InsertEnd(normalOrder);
+	}
+	if (veganorders.count() > 0) {
+		Order veganOrder;
+		veganorders.dequeue(veganOrder);
+		inserviceList.InsertEnd(veganOrder);
+	}
 }
 
 

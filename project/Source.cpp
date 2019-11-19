@@ -41,7 +41,7 @@ int GUIDemo()
 }*/
 
 void removeSpaces(string &line);
-void simpleSimulator()
+/*void simpleSimulator()
 {
 	GUI gui;
 	gui.initSimMode(); 
@@ -60,19 +60,17 @@ void simpleSimulator()
 	}
 	delete pRest;
 
-}
+}*/
 
 int main() {
 	
 	//GUIDemo();
-	simpleSimulator();
-
-	//Restaurant* pRest = new Restaurant;
-
-	//delete pRest;
+	
 
 	Restaurant* pRest = new Restaurant;
 	pRest->simpleSimulator();
+	int pause;
+	cin >> pause;
 	//GUIDemo();
 	//int pause;
 	//cin >> pause;
@@ -121,11 +119,9 @@ int main() {
 	int x;
 	cin >> x;
 	*/
-	int pause;
-	cin >> pause;
 }	
-	
-}
+/*
+
 
 int GUIDemo()
 {
@@ -159,4 +155,4 @@ int GUIDemo()
 	}
 
 	return 0;
-}
+}*/
