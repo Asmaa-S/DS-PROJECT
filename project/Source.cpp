@@ -17,8 +17,9 @@ int main() {
 
 	Restaurant* pRest = new Restaurant;
 	pRest->simpleSimulator();
-	int pause;
-	cin >> pause;
+	//GUIDemo();
+	//int pause;
+	//cin >> pause;
 	
   // testing load from file 
 
@@ -66,7 +67,7 @@ int main() {
 	*/
 	
 }
-/*
+
 int GUIDemo()
 {
 	GUI gui;
@@ -75,9 +76,12 @@ int GUIDemo()
 	int steps = 1;
 
 	while(true) {
-		if(steps % 5 == 0) {
+		
 			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
-		}
+			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
+			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
+			gui.printStringInStatusBar("Current Time: " + std::to_string(steps));
+
 
 		for(int i = 0; i < steps; i++) {
 			gui.addGUIDrawable(new VIPGUIElement(i, GUI_REGION::ORD_REG));
@@ -96,4 +100,4 @@ int GUIDemo()
 	}
 
 	return 0;
-}*/
+}

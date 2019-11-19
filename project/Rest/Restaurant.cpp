@@ -80,9 +80,7 @@ void Restaurant::simpleSimulator()
 		//update interface
 		this->FillDrawingList(); 
 		pGUI->updateInterface();
-		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step)); //update status bar with currunt time
-		pGUI->printStringInStatusBar("  No Of Vegan Waiting orders: " + std::to_string(veganorders.count())+ "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount())+ "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount()));
-		pGUI->printStringInStatusBar("  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
+		pGUI->printStringInStatusBar("Current Time: " + std::to_string(step)+ "/n"+"  No Of Vegan Waiting orders: " + std::to_string(veganorders.count()) + "  No Of Normal Waiting orders: " + std::to_string(normalorders.getCount()) + "  No Of VIP Waiting orders: " + std::to_string(viporders.getCount())+"/n" +"  No Of Available Vegan Cooks: " + std::to_string(vegancookslist.getCount()) + "  No Of Available Normal Cooks: " + std::to_string(normalcookslist.getCount()) + "  No Of Available VIP Cooks: " + std::to_string(vipcookslist.getCount()));
 		pGUI->updateInterface();
 		pGUI->handleSimGUIEvents();
 		pGUI->waitForClick();
@@ -181,11 +179,7 @@ void Restaurant::FillDrawingList()
 	//Drawing in service orders list
 
 	//Drawing Finished orders
-	int numOfFinishedOrders = Finished_Orders.count();
-	Order finishedOrder;
-	for (int i = 0; i < numOfFinishedOrders; i++)
-	{
-	}
+	
 }
 
 
