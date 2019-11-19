@@ -30,16 +30,20 @@ public:
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
-	Order inserviceList;
+	Queue<Order> veganorders;
+
+public:
+	Order* inserviceList= new Order [inservice];
 	Queue<Order> veganorders; //7atenahom public 3lshan elarrival wl cancelation events // check them back b2a
 
 	LinkedList<Order> normalorders;
 	LinkedList<Order> viporders; //
-	int inservice[100];
+	int inservice;
+
 	int totl_num_orders;
 	int totl_num_cooks; 
 	Order* Finished_Orders= new Order [totl_num_orders];
-	
+
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -60,9 +64,10 @@ public:
 	LinkedList<Order> getVipOrders();
 	Queue<Order> getVeganOrders();
 	Order* getFinishedOrders();
-	Order getInserviceList();
+	Order* getInserviceList();
+	void pickOneOrder();
+
 	void simpleSimulator();
-	void insertInserviceOrder(ORD_TYPE x);
 
 	// TODO: Add More Member Functions As Needed
 	//

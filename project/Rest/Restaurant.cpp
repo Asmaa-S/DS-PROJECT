@@ -1,12 +1,12 @@
 #include <cstdlib>
 #include <time.h>
 #include <iostream>
+#include "Restaurant.h"
 using namespace std;
 
 #include "Restaurant.h"
 #include "..\Events\ArrivalEvent.h"
 #include<fstream>
-
 
 
 void removeSpaces(string &line)
@@ -119,7 +119,10 @@ void Restaurant::FillDrawingList()
 {
 	//This function should be implemented in phase1
 	//It should add ALL orders and cooks to the drawing list
+	//It should get orders from orders lists/queues/stacks/whatever (same for cooks)
+	//how to draw cooks?
 
+	//draw order list
 
 	//draw  waiting order list
 	int numOfVeganOrders = veganorders.count;
@@ -179,7 +182,12 @@ void Restaurant::FillDrawingList()
 	//Drawing in service orders list
 
 	//Drawing Finished orders
-	
+
+	int numOfFinishedOrders = sizeof(Finished_Orders);
+	Order finishedOrder;
+	for (int i = 0; i < numOfFinishedOrders; i++)
+	{
+	}
 }
 
 
@@ -271,6 +279,7 @@ void Restaurant::load_from_file(string filename)
 
 	 // populating orders & event lists and queues
 	 string ev_type; int a_t, i_d, n_dish; double cost, prom_cost; ORD_TYPE O_t;
+
 	 int n_orders;
 	 for (int i = 5; i < m+5; i++)  
 
@@ -361,12 +370,15 @@ void Restaurant::save_to_file(string filename)
 		exit(1);   // call system to stop
 	}
 
+	int v_co= vipcookslist.getCount(), g_co=vegancookslist.getCount(), n_co= normalcookslist.getCount();
+	int n_ord = sizeof(Finished_Orders);
 	int n_co= totl_num_cooks;
 	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
 	outfile << "FT  ID  AT  W  ST" << "\n";
 	int sumserv,serv;
+	for (int i = 0; i < sizeof(Finished_Orders); i++) {
 	for (int i = 0; i < totl_num_orders; i++) {
 		
 		O= Finished_Orders[i];
@@ -381,6 +393,7 @@ void Restaurant::save_to_file(string filename)
 	}
 	outfile << "...............................\n";
 	outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
+	outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
 	outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
 	outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 	outfile << "\n autopromoted : " << n_autopromoted;
@@ -388,12 +401,14 @@ void Restaurant::save_to_file(string filename)
 }
 
 
-LinkedList<Order> Restaurant::getNormalOrders()
-{
-	return normalorders;
-}
 
-LinkedList<Order> Restaurant::getVipOrders()
+
+	LinkedList<Order> Restaurant::getNormalOrders()
+	{
+		return normalorders;
+	}
+
+	LinkedList<Order> Restaurant::getVipOrders()
 {
 	return viporders;
 }
@@ -403,16 +418,59 @@ Queue<Order> Restaurant::getVeganOrders()
 	return veganorders;
 }
 
+
 Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
 
-Order Restaurant::getInserviceList()
+
+Order* Restaurant::getInserviceList()
 {
-	return inserviceList;
+	return &inserviceList;
+}
+
+void Restaurant::moveToFinished()
+{
+	int x =0;
+	int f = 0;
+	ORD_TYPE finished[3];
+	for (int i = 0; i < sizeof(inserviceList); i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (inserviceList[i].getType() == Finished_Orders[j])
+				f = 1;
+
+		}
+		if (f == 1) break;
+		Finished_Orders[size(Finished_Orders) - 1] = inserviceList[i];
+	}
+	if (x == 3) break;
 
 }
+
+void Restaurant::pickOneOrder()
+{
+	Node<Order> *headvip =viporders.getHead();
+	inserviceList[inservice] = headvip->getItem();
+	viporders.DeleteFirst();
+	inservice++;
+	Node<Order> *headnormal = normalorders.getHead();
+	inserviceList[inservice] = headnormal->getItem();
+	normalorders.DeleteFirst();
+	inservice++;
+	Node<Order> *headvegan = veganorders.peekFront();
+	Order headvegan;
+	veganorders.dequeue(headvegan);
+	
+
+}
+
+
+
+
+
 
 
 bool Restaurant::EventsQueueIsEmpty()
