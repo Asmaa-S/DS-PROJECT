@@ -9,11 +9,12 @@ class Cook
 	ORD_TYPE type;	//for each order type there is a corresponding type (VIP, Normal, Vegan)
 	int speed;		//dishes it can prepare in one clock tick (in one timestep)
 	int break_duration;
+	int nOfOrdersBeforeBreak;
 	int state; // 0 is free, 1 is busy, -1 is on break
 
 public:
 	Cook();
-	Cook(int id, ORD_TYPE typ, int sp, int br);
+	Cook(int id, ORD_TYPE typ, int sp, int br,int bm);
 	virtual ~Cook();
 
 	int GetID() const;

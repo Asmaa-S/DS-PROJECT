@@ -5,12 +5,13 @@ Cook::Cook()
 {
 }
 
-Cook::Cook(int id, ORD_TYPE typ, int sp, int br)
+Cook::Cook(int id, ORD_TYPE typ, int sp, int br,int bm)
 {
 	ID = id; 
 	type = typ;
 	speed = sp;
 	break_duration = br;
+	nOfOrdersBeforeBreak = bm;
 	state = 0;
 }
 

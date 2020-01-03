@@ -291,21 +291,21 @@ void Restaurant::load_from_file(string filename)
 	 //convention, normal cooks ids will usually be in the 10s, veg will be in the 50s, and vip will be in the 100s
 	 for (int i = 0; i < ncooks_n;i++)
 	 { 
-		 Cook x (i, TYPE_NRM, SN, bn);
+		 Cook x (i, TYPE_NRM, SN, bn,bm);
 			 normalcookslist.InsertEnd(x);
 	 }
 	 
 
 	 for (int i = 0; i < ncooks_veg; i++)
 	 {
-		 Cook x(i+50, TYPE_VEG, SG, bg);
+		 Cook x(i+50, TYPE_VEG, SG, bg,bm);
 		 vegancookslist.InsertEnd(x);
 	 }
 
 	
 	 for (int i = 0; i < ncooks_vip; i++)
 	 {
-		 Cook x(i + 100, TYPE_VIP, SV, bv);
+		 Cook x(i + 100, TYPE_VIP, SV, bv,bm);
 		 vipcookslist.InsertEnd(x);
 	 }
 	 
