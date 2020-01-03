@@ -34,6 +34,7 @@ public:
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
 	
+
 	LinkedList<Order> inserviceList;
 
 	Queue<Order> veganorders; 

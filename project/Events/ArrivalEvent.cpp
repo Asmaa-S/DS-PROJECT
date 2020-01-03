@@ -31,6 +31,6 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	}
 	else if (OrdType == TYPE_VIP)
 	{
-		//pRest->viporders.InsertSorted(ord);
+		pRest->viporders.InsertSortedOrder(ord);
 	}
 }

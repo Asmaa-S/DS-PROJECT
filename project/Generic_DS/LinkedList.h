@@ -416,8 +416,8 @@ public:
 	bool InsertSortedOrder(Order order)
 	{
 
-		Node <Order>* Nn = new Node<Order>;
-
+		Node <Order> *Nn= new Node<Order>;
+		Nn->setItem(order);
 		if (Head->getNext() == nullptr) //element
 		{
 			InsertBeg(order);
@@ -434,12 +434,14 @@ public:
 				ptr = ptr->getNext();
 			}
 
-			if (ptr->getNext()->getItem().getPriority() == order.getPriority())
+			while (ptr->getNext()->getItem().getPriority() == order.getPriority())
 			{
-				if (order.getAT() > ptr->getNext->getItem().getAT())
+				if (order.getAT() > ptr->getNext()->getItem().getAT())
 				{
 					ptr = ptr->getNext();
+
 				}
+				else break;
 			}
 
 			Node<Order> *p = ptr->getNext();

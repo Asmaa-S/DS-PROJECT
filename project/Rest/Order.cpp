@@ -101,7 +101,11 @@ int Order::getST() const
 
 double Order::getPriority()
 {
-	return (2 * totalMoney - 0.5 * ServTime - Dishes);
+	if (type == TYPE_VIP)
+	{
+		return (2 * totalMoney - 0.5 * ServTime - Dishes);
+	}
+	else return -100;
 }
 
 
