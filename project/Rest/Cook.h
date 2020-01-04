@@ -11,7 +11,7 @@ class Cook
 	int break_duration;
 	int nOfOrdersBeforeBreak;
 	int state; // 0 is free, 1 is busy, -1 is on break
-	double breakTime;
+	double orderTime;
 
 public:
 	Cook();
@@ -27,9 +27,10 @@ public:
 	int getState() const;
 	void setState(int i);
 	
-	double getBreakTime() const;
-	void setBreakTime(double d);
+	double getOrderTime() const;
+	void setOrderTime(double d);
 
+	int getBreakDuration() const;
 	int getSpeed() const;
 
 	void give_order(Order &o);

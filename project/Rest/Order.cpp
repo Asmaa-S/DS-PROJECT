@@ -128,6 +128,16 @@ void Order::setCookType(ORD_TYPE Type)
 	cookType = Type;
 }
 
+double Order::getServiceTime() const
+{
+	return serviceTime;
+}
+
+void Order::setServiceTime(double time)
+{
+	serviceTime = time;
+}
+
 
 void Order::setStatus(ORD_STATUS s)
 {
