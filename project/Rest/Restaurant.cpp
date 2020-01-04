@@ -9,33 +9,6 @@ using namespace std;
 #include<fstream>
 
 
-void removeSpaces(string &line)
-{
-	
-	int l = line.length(),pos,numsp=0;
-	string delim = " ";
-	string temp = line;
-	//line.clear();
-	
-	//count spaces
-	for (int i = 0; i < l; i++) {
-		pos = temp.find(delim);
-		if (pos != -1)
-		{	
-			numsp++;
-			temp.erase(0, pos+1);
-		}
-	}
-
-	for (int i = 0; i< numsp; i++) {
-		pos = line.find(delim);
-		
-		line.erase(pos, 1);
-	}
-}				   // incremented 
-	
-
-
 Restaurant::Restaurant()
 {
 	pGUI = NULL;
@@ -405,8 +378,7 @@ void Restaurant::load_from_file(string filename)
 	 n_cooks_vip = ncooks_vip;
 	 n_cooks_norm = ncooks_n;
      n_cooks_veg=ncooks_veg;
-	 int n_cooks_norm;
-	 int n_cooks_vip;
+	
 	 stringstream a(lines[2].substr(0, 1));
 	 stringstream b(lines[2].substr(2, 1));
 	 stringstream c(lines[2].substr(4, 1));
@@ -415,7 +387,10 @@ void Restaurant::load_from_file(string filename)
 	 b >> bn;
 	 c >> bg;
 	 d >> bv;
-
+	 meals_bef_break=bm;
+	 break_dur_norm = bn;
+	 break_dur_veg = bg;
+	 break_dur_vip = bv;
 	 stringstream e(lines[3]);
 	 e >> n_autopromote;
 	 stringstream o(lines[4]);
@@ -496,7 +471,7 @@ void Restaurant::load_from_file(string filename)
 				//Order OOg(i_d, O_t);
 				//veganorders.enqueue(OOg);
 			}
-			Event* evv = new ArrivalEvent(a_t, i_d, O_t, n_dish, cost, n_autopromote);
+			Event* evv = new ArrivalEvent (a_t, i_d, O_t, n_dish, cost, n_autopromote);
 
 			EventsQueue.enqueue(evv);
 		}
@@ -529,7 +504,7 @@ void Restaurant::load_from_file(string filename)
 	 int vbvvmn = EventsQueue.count();
 	 totl_num_orders = n_orders;
 }
-//change sizeof to numOffinishedorders
+
 void Restaurant::save_to_file(string filename)
 {
 	ofstream outfile;
@@ -678,3 +653,48 @@ bool Restaurant::EventsQueueIsEmpty()
 	return EventsQueue.isEmpty();
 }
 
+void Restaurant::handle_cook_breaks(int current_time_step) {
+	//put on break
+	Node<Cook>*ptr= normalcookslist.getHead();
+	Cook curr_cook = ptr->getItem();
+	for (int i = 0; i < n_cooks_norm; i++)
+	{
+		if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		inBreakCooks.InsertEnd(curr_cook);
+	}
+
+	ptr = vipcookslist.getHead();
+    curr_cook = ptr->getItem();
+	for (int j = 0; j < n_cooks_vip; j++)
+	{
+          if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		  inBreakCooks.InsertEnd(curr_cook);
+
+	}
+	
+	ptr = vipcookslist.getHead();
+    curr_cook = ptr->getItem();
+	for (int k = 0; k < n_cooks_veg; k++)
+	{
+		if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		inBreakCooks.InsertEnd(curr_cook);
+
+	}
+
+	// out of break logic
+   ptr = inBreakCooks.getHead();
+   while (ptr != nullptr) {
+	   curr_cook = ptr->getItem();
+
+	   if (current_time_step - curr_cook.get_break_start_time() >= curr_cook.getBreakDuration()) {
+		   inBreakCooks.Delete_node_by_ptr(ptr);
+		   curr_cook.put_out_of_break();
+	   }
+	   ptr = ptr->getNext();
+	}
+
+	
+}

@@ -21,6 +21,9 @@
 #include "..\GUI\GUIDrawables\VeganGUIElement.h"
 #include "..\GUI\GUIDrawables\VIPGUIElement.h"
 // it is the maestro of the project
+
+// note: use cooks::increment orders done, whenever an order is assigned to a cook.
+//call function handle break every timestep
 class Restaurant  
 {	
 public:
@@ -30,7 +33,8 @@ public:
 	int n_cooks_veg;
 	int n_cooks_norm;
 	int n_cooks_vip;
-
+	int meals_bef_break;
+	int break_dur_norm, break_dur_veg, break_dur_vip;
 	int numOfFinishedOrders = 0;
 
 	GUI *pGUI;
@@ -50,12 +54,7 @@ public:
 	
 	Order* Finished_Orders= new Order [totl_num_orders];
 
-	//
-	// TODO: Add More Data Members As Needed
-	//
-
-
-//public:
+	
 	
 	Restaurant();
 	~Restaurant();
@@ -64,6 +63,7 @@ public:
 	void RunSimulation();
 	void FillDrawingList();
 	bool EventsQueueIsEmpty();
+	void handle_cook_breaks(int current_time_step);
 	void load_from_file(string filename);
 	void save_to_file(string filename);
 	LinkedList<Order> getNormalOrders();

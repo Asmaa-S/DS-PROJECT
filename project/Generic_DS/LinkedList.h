@@ -384,6 +384,33 @@ public:
 		return false;
 	}
 
+	bool Delete_node_by_ptr( Node<T>* ptr) {
+		//only use for cooks
+
+		//cout << "\nDeleting the element " << value << endl;
+		if (Head == nullptr) {
+			return false;
+		}
+
+		if (Head == ptr) {
+			DeleteFirst();
+			return true;
+		}
+		Node<T> *p = Head;
+		Node<T> *q = p->getNext();
+
+		while (q) {
+			if (q == ptr) {
+				p->setNext(q->getNext());
+				delete q;
+				count--;
+				return true;
+			}
+			p = q;
+			q = p->getNext();
+		}
+		return false;
+	}
 	//only called when LinkedList<Order>
 	bool DelNode(const int &ID) {
 		//cout << "\nDeleting the element " << value << endl;
