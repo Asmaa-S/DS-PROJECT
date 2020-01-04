@@ -1,5 +1,5 @@
 #pragma once
-#include "F:\CIE\Data structure\Project - Github version\DS-PROJECT\project\Rest/Cook.h"
+#include "../Rest/Cook.h"
 #include "../Rest/Order.h"
 #include <tuple>
 #include "Node.h"
@@ -95,7 +95,7 @@ public:
 		cout << "\nElement " << Key << " not found" << endl;
 		return false;
 	}
-
+	
 	int CountOccurance(const T &value) {
 		int occs = 0;
 		Node<T> *p = Head;
@@ -502,7 +502,17 @@ public:
 		return true;
 
 	}
-
+	//only for class order
+	Order getOrder(int orderID) {
+		Node<Order> *p = Head;
+		while (p) {
+			if (p->getItem().GetID() == orderID) {
+				return p->getItem();
+			}
+			p = p->getNext();
+		}
+		//did not handle if he did not find the order
+	}
 	//only for class order
 	bool InsertSortedOrder(Order order)
 	{

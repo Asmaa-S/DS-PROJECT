@@ -51,7 +51,14 @@ int Order::GetID()
 {
 	return ID;
 }
-
+void Order::setMoney(double money)
+{
+	totalMoney = money;
+}
+double Order::getMoney() const
+{
+	return totalMoney;
+}
 
 ORD_TYPE Order::GetType() const
 {
