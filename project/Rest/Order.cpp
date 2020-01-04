@@ -108,6 +108,26 @@ double Order::getPriority()
 	else return -100;
 }
 
+int Order::getCookID() const
+{
+	return cookID;
+}
+
+void Order::setCookID(int ID)
+{
+	cookID = ID;
+}
+
+ORD_TYPE Order::getCookType() const
+{
+	return cookType;
+}
+
+void Order::setCookType(ORD_TYPE Type)
+{
+	cookType = Type;
+}
+
 
 void Order::setStatus(ORD_STATUS s)
 {

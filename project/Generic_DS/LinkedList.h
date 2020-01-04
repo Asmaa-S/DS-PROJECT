@@ -1,4 +1,5 @@
 #pragma once
+#include "F:\CIE\Data structure\Project - Github version\DS-PROJECT\project\Rest/Cook.h"
 #include "../Rest/Order.h"
 #include <tuple>
 #include "Node.h"
@@ -412,44 +413,89 @@ public:
 		return false;
 	}
 
+	//only for BusyCooks
+	bool insertSortedBusyCooks(Cook cook, int nOfDishes)
+	{
+		double breakTime = nOfDishes / cook.getSpeed();
+		cook.setBreakTime(breakTime);
+		Node<Cook> *ptr = Head;
+		Node<Cook> *newNode = new Node<Cook>;
+		newNode->setItem(cook);
+		if (ptr == nullptr)
+		{
+			InsertBeg(cook);
+			return true;
+		}
+		while (ptr->getItem().getBreakTime() < breakTime)
+		{
+			ptr = ptr->getNext();
+		}
+		if (ptr == nullptr)
+		{
+			InsertEnd(cook);
+			return true;
+		}
+		Node<Order> *p = ptr->getNext();
+		newNode->setNext(p);
+		ptr->setNext(newNode);
+		count++;
+
+		return true;
+
+	}
+	bool insertSortedBreakCooks(Cook cook)
+	{
+		Node<Cook> *ptr = Head;
+		Node<Cook> *newNode = new Node<Cook>;
+		newNode->setItem(cook);
+		if (ptr == nullptr)
+		{
+			InsertBeg(cook);
+			return true;
+		}
+
+	}
+
 	//only for class order
 	bool InsertSortedOrder(Order order)
 	{
 
 		Node <Order> *Nn= new Node<Order>;
 		Nn->setItem(order);
-		if (Head->getNext() == nullptr) //element
+		if (Head == nullptr) //element
 		{
-			InsertBeg(order);
+			this->InsertBeg(order);
 
 
 			return true;
 		}
 
 		Node<Order>* ptr = Head;
-		if (true) {
-
-			while (ptr->getNext() != nullptr && ptr->getNext()->getItem().getPriority() > order.getPriority())
+		while (ptr->getItem().getPriority() > order.getPriority())
+		{
+			ptr = ptr->getNext();
+		}
+		int flag = 0;
+		while (ptr->getItem().getPriority() == order.getPriority() && flag==0)
+		{
+			if (order.getAT() > ptr->getNext()->getItem().getAT())
 			{
 				ptr = ptr->getNext();
+
 			}
-
-			while (ptr->getNext()->getItem().getPriority() == order.getPriority())
-			{
-				if (order.getAT() > ptr->getNext()->getItem().getAT())
-				{
-					ptr = ptr->getNext();
-
-				}
-				else break;
-			}
-
-			Node<Order> *p = ptr->getNext();
-			Nn->setNext(p);
-			ptr->setNext(Nn);
-			count++;
+			else flag=1;
+		}
+		if (ptr == nullptr)
+		{
+			InsertEnd(order);
 			return true;
 		}
+		Node<Order> *p = ptr->getNext();
+		Nn->setNext(p);
+		ptr->setNext(Nn);
+		count++;
+		return true;
+		
 
 		
 	}

@@ -42,6 +42,18 @@ void Cook::setType(ORD_TYPE t)
 {
 	type = t;
 }
+double Cook::getBreakTime() const
+{
+	return breakTime;
+}
+void Cook::setBreakTime(double d)
+{
+	breakTime = d;
+}
+int Cook::getSpeed() const
+{
+	return speed;
+}
 void Cook::give_order(Order &o) {
 	//check state. if free, change state of cook to busy, change state of order to done.
 }
