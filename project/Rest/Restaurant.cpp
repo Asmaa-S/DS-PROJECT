@@ -83,7 +83,8 @@ void Restaurant::simpleSimulator()
 	
 
 		//pick one order
-		pickOneOrder();
+		//pickOneOrder();
+		assignVIPOrders();
 
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
 		if (step % 5 == 0)
@@ -99,6 +100,57 @@ void Restaurant::simpleSimulator()
 	}
 
 }
+
+void Restaurant::assignVIPOrders()
+{
+	//VIP cooks For VIP orders
+	while (vipcookslist.getCount() > 0 &&  viporders.getHead() != nullptr)
+	{
+		//get the Cook ID of the first waiting Cook
+		int cookID = vipcookslist.getHead()->getItem().GetID();
+		//Set the first Order cook ID
+		viporders.getHead()->getItem().setCookID(cookID);
+		//Add the order to inservice List
+		int speed = vipcookslist.getHead()->getItem().getSpeed();
+		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		//Transfer the cook into the busy List
+		int nOfDishes = viporders.getHead()->getItem().GetDishes();
+		busyCooks.insertSortedBusyCooks(vipcookslist.getHead()->getItem(), nOfDishes);
+		vipcookslist.DeleteFirst();
+	}
+	//Check Normal Cooks for VIP orders
+	while (normalcookslist.getCount() > 0 && viporders.getHead() != nullptr)
+	{
+		//get Cook ID 
+		int cookID = normalcookslist.getHead()->getItem().GetID();
+		//set cook ID
+		viporders.getHead()->getItem().setCookID(cookID);
+		//Add the order to inservice List
+		int speed = normalcookslist.getHead()->getItem().getSpeed();
+		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		//Transfer the cook into the busy List
+		int nOfDishes = viporders.getHead()->getItem().GetDishes();
+		busyCooks.insertSortedBusyCooks(normalcookslist.getHead()->getItem(), nOfDishes);
+		normalcookslist.DeleteFirst();
+	}
+	//Check Vegan Cooks for VIP orders
+	while (normalcookslist.getCount() > 0 && viporders.getHead() != nullptr)
+	{
+		//get Cook ID 
+		int cookID = vegancookslist.getHead()->getItem().GetID();
+		//set cook ID
+		viporders.getHead()->getItem().setCookID(cookID);
+		//Add the order to inservice List
+		int speed = vegancookslist.getHead()->getItem().getSpeed();
+		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		//Transfer the cook into the busy List
+		int nOfDishes = viporders.getHead()->getItem().GetDishes();
+		busyCooks.insertSortedBusyCooks(vegancookslist.getHead()->getItem(), nOfDishes);
+		vegancookslist.DeleteFirst();
+	}
+	
+}
+
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
 
@@ -451,6 +503,21 @@ Queue<Order> Restaurant::getVeganOrders()
 	return veganorders;
 }
 
+LinkedList<Cook> Restaurant::getVipCookList()
+{
+	return vipcookslist;
+}
+
+LinkedList<Cook> Restaurant::getVeganCookList()
+{
+	return vegancookslist;
+}
+
+
+LinkedList<Cook> Restaurant::getNormalCookList()
+{
+	return normalcookslist;
+}
 
 Order* Restaurant::getFinishedOrders()
 {

@@ -42,13 +42,17 @@ void Cook::setType(ORD_TYPE t)
 {
 	type = t;
 }
-double Cook::getBreakTime() const
+double Cook::getOrderTime() const
 {
-	return breakTime;
+	return orderTime;
 }
-void Cook::setBreakTime(double d)
+void Cook::setOrderTime(double d)
 {
-	breakTime = d;
+	orderTime = d;
+}
+int Cook::getBreakDuration() const
+{
+	return break_duration;
 }
 int Cook::getSpeed() const
 {

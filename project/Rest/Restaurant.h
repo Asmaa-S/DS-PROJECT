@@ -33,7 +33,8 @@ public:
 	LinkedList<Cook> normalcookslist;
 	LinkedList<Cook> vegancookslist;
 	LinkedList<Cook> vipcookslist;
-	
+	LinkedList<Cook> busyCooks;
+	LinkedList<Cook> inBreakCooks;
 
 	LinkedList<Order> inserviceList;
 
@@ -63,11 +64,17 @@ public:
 	LinkedList<Order> getNormalOrders();
 	LinkedList<Order> getVipOrders();
 	Queue<Order> getVeganOrders();
+	LinkedList<Cook> getVipCookList();
+	LinkedList<Cook> getVeganCookList();
+	LinkedList<Cook> getNormalCookList();
+
 	Order* getFinishedOrders();
 	Order* getInserviceList();
 	void pickOneOrder();
 	void moveToFinished();
 	void simpleSimulator();
+	void assignVIPOrders();
+
 
 	// TODO: Add More Member Functions As Needed
 	//

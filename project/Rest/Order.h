@@ -14,7 +14,9 @@ protected:
 	double totalMoney;	//Total order money
 	int steps_bef_autopromote;
 	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
-	
+	int cookID;
+	ORD_TYPE cookType;
+	double serviceTime;
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -55,6 +57,15 @@ public:
 	int getVIPpriority(); //go and give them definition
 	
 	double getPriority();
+
+	int getCookID() const;
+	void setCookID(int ID);
+
+	ORD_TYPE getCookType() const;
+	void setCookType(ORD_TYPE Type);
+
+	double getServiceTime() const;
+	void setServiceTime(double time);
 	//
 	// TODO: Add More Member Functions As Needed
 	//

@@ -412,12 +412,42 @@ public:
 		}
 		return false;
 	}
+	bool insertSortedInserviceOrders(Order order, int cookSpeed)
+	{
+		double orderTime = order.GetDishes() / cookSpeed;
+		order.setServiceTime(orderTime);
+		Node<Order>*ptr = Head;
+		Node<Order> *newNode = new Node<Order>;
+		newNode->setItem(order);
+		if (ptr == nullptr)
+		{
+			InsertBeg(order);
+			return true;
+		}
+		while (ptr->getItem().getServiceTime() < orderTime)
+		{
+
+			ptr = ptr->getNext();
+
+			if (ptr == nullptr)
+			{
+				InsertEnd(order);
+				return true;
+			}
+		}
+		Node<Order> *p = ptr->getNext();
+		newNode->setNext(p);
+		ptr->setNext(newNode);
+		count++;
+
+		return true; newNode->setNext(ptr);
+	}
 
 	//only for BusyCooks
 	bool insertSortedBusyCooks(Cook cook, int nOfDishes)
 	{
-		double breakTime = nOfDishes / cook.getSpeed();
-		cook.setBreakTime(breakTime);
+		double orderTime = nOfDishes / cook.getSpeed();
+		cook.setOrderTime(orderTime);
 		Node<Cook> *ptr = Head;
 		Node<Cook> *newNode = new Node<Cook>;
 		newNode->setItem(cook);
@@ -426,16 +456,17 @@ public:
 			InsertBeg(cook);
 			return true;
 		}
-		while (ptr->getItem().getBreakTime() < breakTime)
+		while (ptr->getItem().getOrderTime() < orderTime)
 		{
 			ptr = ptr->getNext();
+
+			if (ptr == nullptr)
+			{
+				InsertEnd(cook);
+				return true;
+			}
 		}
-		if (ptr == nullptr)
-		{
-			InsertEnd(cook);
-			return true;
-		}
-		Node<Order> *p = ptr->getNext();
+		Node<Cook> *p = ptr->getNext();
 		newNode->setNext(p);
 		ptr->setNext(newNode);
 		count++;
@@ -453,6 +484,22 @@ public:
 			InsertBeg(cook);
 			return true;
 		}
+		while (ptr->getItem().getBreakDuration() < cook.getBreakDuration())
+		{
+			ptr = ptr->getNext();
+
+			if (ptr == nullptr)
+			{
+				InsertEnd(cook);
+				return true;
+			}
+		}
+		Node<Order> *p = ptr->getNext();
+		newNode->setNext(p);
+		ptr->setNext(newNode);
+		count++;
+
+		return true;
 
 	}
 
@@ -476,19 +523,19 @@ public:
 			ptr = ptr->getNext();
 		}
 		int flag = 0;
-		while (ptr->getItem().getPriority() == order.getPriority() && flag==0)
+		while (ptr->getItem().getPriority() == order.getPriority() && flag == 0)
 		{
 			if (order.getAT() > ptr->getNext()->getItem().getAT())
 			{
 				ptr = ptr->getNext();
 
 			}
-			else flag=1;
-		}
-		if (ptr == nullptr)
-		{
-			InsertEnd(order);
-			return true;
+			else flag = 1;
+			if (ptr == nullptr)
+			{
+				InsertEnd(order);
+				return true;
+			}
 		}
 		Node<Order> *p = ptr->getNext();
 		Nn->setNext(p);
