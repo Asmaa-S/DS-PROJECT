@@ -360,7 +360,7 @@ void Restaurant::load_from_file(string filename)
 				//Order OOg(i_d, O_t);
 				//veganorders.enqueue(OOg);
 			}
-			Event* evv = new ArrivalEvent(a_t, i_d, O_t);
+			Event* evv = new ArrivalEvent(a_t, i_d, O_t, n_dish, cost);
 
 			EventsQueue.enqueue(evv);
 		}

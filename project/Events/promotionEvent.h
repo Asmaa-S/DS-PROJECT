@@ -7,9 +7,9 @@ class promotionEvent :
 {
 
 	ORD_TYPE OrdType;
-	double money;
+	double extraMoney;
 public:
-	promotionEvent(int eTime, int oID, double mon);
+	promotionEvent(int eTime, int oID, double extraMon);
 	~promotionEvent();
 	virtual void Execute(Restaurant *pRest);
 };
