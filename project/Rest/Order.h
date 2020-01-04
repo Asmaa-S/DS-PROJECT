@@ -17,6 +17,7 @@ protected:
 	int cookID;
 	ORD_TYPE cookType;
 	double serviceTime;
+	int autoS; //that represent the number of timesteps after which an order is automatically promoted to VIP
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -66,6 +67,8 @@ public:
 
 	double getServiceTime() const;
 	void setServiceTime(double time);
+
+	void setAutoS(int s);
 	//
 	// TODO: Add More Member Functions As Needed
 	//
