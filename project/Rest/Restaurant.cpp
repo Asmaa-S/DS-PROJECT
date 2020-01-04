@@ -83,11 +83,11 @@ void Restaurant::simpleSimulator()
 	
 
 		//pick one order
-		pickOneOrder();
-		/*assignVIPOrders();
+		//pickOneOrder();
+		assignVIPOrders();
 		assignVeganOrders();
 		assignNormalOrders();
-		*/
+		
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
 		if (step % 5 == 0)
 		{
@@ -108,6 +108,7 @@ void Restaurant::assignVIPOrders()
 {
 	int cookID, speed, nOfDishes;
 	//VIP cooks For VIP orders
+	/// change state
 	while (vipcookslist.getCount() > 0 &&  viporders.getHead() != nullptr)
 	{
 		//get the Cook ID of the first waiting Cook
@@ -245,13 +246,11 @@ void Restaurant::ExecuteEvents(int CurrentTimeStep)
 
 }
 
-
 Restaurant::~Restaurant()
 {
 	
 		delete pGUI;
 }
-
 
 void Restaurant::FillDrawingList()
 {
@@ -350,8 +349,6 @@ void Restaurant::FillDrawingList()
 		}
 	}
 }
-
-
 
 void Restaurant::load_from_file(string filename)
 {   //open file
@@ -563,12 +560,12 @@ void Restaurant::load_from_file(string filename)
 	}
 }*/
 
-	LinkedList<Order> Restaurant::getNormalOrders()
+LinkedList<Order> Restaurant::getNormalOrders()
 	{
 		return normalorders;
 	}
 
-	LinkedList<Order> Restaurant::getVipOrders()
+LinkedList<Order> Restaurant::getVipOrders()
 {
 	return viporders;
 }
@@ -588,7 +585,6 @@ LinkedList<Cook> Restaurant::getVeganCookList()
 	return vegancookslist;
 }
 
-
 LinkedList<Cook> Restaurant::getNormalCookList()
 {
 	return normalcookslist;
@@ -598,8 +594,6 @@ Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
-
-
 
 void Restaurant::moveToFinished()
 {
@@ -670,12 +664,6 @@ void Restaurant::pickOneOrder()
 		inserviceList.InsertEnd(veganOrder);
 	}
 }
-
-
-
-
-
-
 
 bool Restaurant::EventsQueueIsEmpty()
 { // this function checks if the Event Queue is empty or not

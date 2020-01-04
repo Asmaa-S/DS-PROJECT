@@ -12,7 +12,7 @@ Cook::Cook(int id, ORD_TYPE typ, int sp, int br,int bm)
 	speed = sp;
 	break_duration = br;
 	nOfOrdersBeforeBreak = bm;
-	state = 0;
+	state = FREE;
 }
 
 
@@ -62,13 +62,13 @@ void Cook::give_order(Order &o) {
 	//check state. if free, change state of cook to busy, change state of order to done.
 }
 void Cook::put_on_break() {
-	state = -1;
+	state = ONBREAK;
 }
-int Cook::getState() const
+COOK_STATE Cook::getState() const
 {
 	return state;
 }
-void Cook::setState(int i)
+void Cook::setState(COOK_STATE i)
 {
 	state = i;
 }

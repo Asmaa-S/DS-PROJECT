@@ -10,7 +10,7 @@ class Cook
 	int speed;		//dishes it can prepare in one clock tick (in one timestep)
 	int break_duration;
 	int nOfOrdersBeforeBreak;
-	int state; // 0 is free, 1 is busy, -1 is on break
+	COOK_STATE state; // 0 is free, 1 is busy, -1 is on break
 	double orderTime;
 
 public:
@@ -24,8 +24,8 @@ public:
 	void setType(ORD_TYPE typ);
 	ORD_TYPE GetType() const;
 
-	int getState() const;
-	void setState(int i);
+	COOK_STATE getState() const;
+	void setState(COOK_STATE i);
 	
 	double getOrderTime() const;
 	void setOrderTime(double d);
