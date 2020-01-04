@@ -391,7 +391,7 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_NRM;
 				//Order OOn(i_d, O_t);
 				//normalorders.InsertEnd(OOn);
-				n_orders++;
+				//n_orders++;
 			}
 
 			else if (Oo_t == "V")
