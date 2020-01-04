@@ -156,6 +156,10 @@ void Order::setAutoS(int s)
 {
 	autoS = s;
 }
+int Order::getAutoS()
+{
+	return autoS;
+}
 
 ORD_STATUS Order::getStatus() const
 {

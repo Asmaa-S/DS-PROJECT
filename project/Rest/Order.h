@@ -69,6 +69,7 @@ public:
 	void setServiceTime(double time);
 
 	void setAutoS(int s);
+	int getAutoS();
 	//
 	// TODO: Add More Member Functions As Needed
 	//
