@@ -81,7 +81,30 @@ public:
 	void assignVIPOrders();
 	void assignNormalOrders();
 	void assignVeganOrders();
+	void autoPromot(int timeStep)
+	{if (normalorders.getCount() == 0)
+	{
+		return;
+	}
+	int autoS = normalorders.getHead()->getItem().getAutoS();
 
+	while (normalorders.getCount() > 0)
+	{
+		Order normalOrd = normalorders.getHead()->getItem();
+
+		if (timeStep - normalOrd.getAT() >= autoS)
+		{
+			Order VIPOrd(timeStep, normalOrd.GetID(), TYPE_VIP,normalOrd.GetDishes(), normalOrd.getMoney());
+			viporders.InsertSortedOrder(VIPOrd);
+			normalorders.DeleteFirst();
+		}
+		else
+		{
+			break;
+		}
+	}
+	return;
+	}
 	// TODO: Add More Member Functions As Needed
 	//
 
