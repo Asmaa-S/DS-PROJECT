@@ -99,7 +99,15 @@ void Restaurant::simpleSimulator()
 		pGUI->waitForClick();
 		
 		step++; //increase time by one
+
+		if (step == 40)
+		{
+			this->save_to_file("b.txt");
+			break;
+
+		}
 	}
+	
 
 }
 
@@ -394,7 +402,11 @@ void Restaurant::load_from_file(string filename)
 	 cn >> ncooks_n;
 	 cg >> ncooks_veg;
 	 cv >> ncooks_vip;
-
+	 n_cooks_vip = ncooks_vip;
+	 n_cooks_norm = ncooks_n;
+     n_cooks_veg=ncooks_veg;
+	 int n_cooks_norm;
+	 int n_cooks_vip;
 	 stringstream a(lines[2].substr(0, 1));
 	 stringstream b(lines[2].substr(2, 1));
 	 stringstream c(lines[2].substr(4, 1));
@@ -449,13 +461,13 @@ void Restaurant::load_from_file(string filename)
 		 //order arrival events 
 	    if (ev_type=="R"){
 			//record id
-			stringstream tt1(lines[i].substr(6, 1));
+			stringstream tt1(lines[i].substr(6, 2));
 			tt1 >> i_d;
 			//record #of dishes
-			stringstream tt2(lines[i].substr(8, 1));
+			stringstream tt2(lines[i].substr(9, 1));
 			tt2 >> n_dish;
 			//record order cost
-			stringstream tt3(lines[i].substr(10, 1));
+			stringstream tt3(lines[i].substr(11, 1));
 			tt3 >> cost;
 			//store order,as per type
 			string Oo_t = lines[i].substr(4, 1);
@@ -463,7 +475,7 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_NRM;
 				//Order OOn(i_d, O_t);
 				//normalorders.InsertEnd(OOn);
-				//n_orders++;
+				n_orders++;
 			}
 
 			else if (Oo_t == "V")
@@ -515,10 +527,10 @@ void Restaurant::load_from_file(string filename)
 		 
 	 }
 	 int vbvvmn = EventsQueue.count();
-	
+	 totl_num_orders = n_orders;
 }
 //change sizeof to numOffinishedorders
-/*void Restaurant::save_to_file(string filename)
+void Restaurant::save_to_file(string filename)
 {
 	ofstream outfile;
 	outfile.open(filename.c_str(), ios::out | ios::trunc);
@@ -529,36 +541,32 @@ void Restaurant::load_from_file(string filename)
 		exit(1);   // call system to stop
 	}
 
-	int v_co = vipcookslist.getCount(), g_co = vegancookslist.getCount(), n_co = normalcookslist.getCount();
-	int n_ord = sizeof(Finished_Orders);
-	int n_co = totl_num_cooks;
 	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
-	outfile << "FT  ID  AT  W  ST" << "\n";
-	int sumserv, serv;
-	for (int i = 0; i < sizeof(Finished_Orders); i++) {
-		for (int i = 0; i < totl_num_orders; i++) {
+	outfile << "FT\t\tID\t\tAT\t\tW\t\tST" << "\n";
+	int sumserv=0, serv;
+		for (int j = 0; j < n_ord; j++) {
 
-			O = Finished_Orders[i];
+			O = Finished_Orders[j];
 			wait = O.GetFinish() - O.getAT();
 			sumwait += wait;
 			serv = O.getST();
 			sumserv += serv;
-			outfile << O.GetID() << "\t\t" << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
+			outfile << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
 
 			outfile << "\n";
 
 		}
+
 		outfile << "...............................\n";
 		outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
-		outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
-		outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
+		outfile << "\n cooks:  " << totl_num_cooks << "  norm:  " << n_cooks_norm << "  veg:  " << n_cooks_veg << "  vip:  " << n_cooks_vip;
 		outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 		outfile << "\n autopromoted : " << n_autopromoted;
 
-	}
-}*/
+	//}
+}
 
 LinkedList<Order> Restaurant::getNormalOrders()
 	{

@@ -27,7 +27,12 @@ public:
 	int n_autopromoted=0;
 	int totl_num_orders;
 	int totl_num_cooks;
+	int n_cooks_veg;
+	int n_cooks_norm;
+	int n_cooks_vip;
+
 	int numOfFinishedOrders = 0;
+
 	GUI *pGUI;
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
 	LinkedList<Cook> normalcookslist;
