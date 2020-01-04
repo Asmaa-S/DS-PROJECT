@@ -74,7 +74,8 @@ public:
 	void moveToFinished();
 	void simpleSimulator();
 	void assignVIPOrders();
-
+	void assignNormalOrders();
+	void assignVeganOrders();
 
 	// TODO: Add More Member Functions As Needed
 	//

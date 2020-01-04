@@ -83,9 +83,11 @@ void Restaurant::simpleSimulator()
 	
 
 		//pick one order
-		//pickOneOrder();
-		assignVIPOrders();
-
+		pickOneOrder();
+		/*assignVIPOrders();
+		assignVeganOrders();
+		assignNormalOrders();
+		*/
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
 		if (step % 5 == 0)
 		{
@@ -101,20 +103,24 @@ void Restaurant::simpleSimulator()
 
 }
 
+
 void Restaurant::assignVIPOrders()
 {
+	int cookID, speed, nOfDishes;
 	//VIP cooks For VIP orders
 	while (vipcookslist.getCount() > 0 &&  viporders.getHead() != nullptr)
 	{
 		//get the Cook ID of the first waiting Cook
-		int cookID = vipcookslist.getHead()->getItem().GetID();
-		//Set the first Order cook ID
+		cookID = vipcookslist.getHead()->getItem().GetID();
+		//Set the first Order cook ID and type
 		viporders.getHead()->getItem().setCookID(cookID);
+		viporders.getHead()->getItem().setCookType(TYPE_VIP);
 		//Add the order to inservice List
-		int speed = vipcookslist.getHead()->getItem().getSpeed();
+		speed = vipcookslist.getHead()->getItem().getSpeed();
 		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		nOfDishes = viporders.getHead()->getItem().GetDishes();
+		viporders.DeleteFirst();
 		//Transfer the cook into the busy List
-		int nOfDishes = viporders.getHead()->getItem().GetDishes();
 		busyCooks.insertSortedBusyCooks(vipcookslist.getHead()->getItem(), nOfDishes);
 		vipcookslist.DeleteFirst();
 	}
@@ -122,14 +128,16 @@ void Restaurant::assignVIPOrders()
 	while (normalcookslist.getCount() > 0 && viporders.getHead() != nullptr)
 	{
 		//get Cook ID 
-		int cookID = normalcookslist.getHead()->getItem().GetID();
-		//set cook ID
+		cookID = normalcookslist.getHead()->getItem().GetID();
+		//set cook ID and type
 		viporders.getHead()->getItem().setCookID(cookID);
-		//Add the order to inservice List
-		int speed = normalcookslist.getHead()->getItem().getSpeed();
+		viporders.getHead()->getItem().setCookType(TYPE_NRM);
+		//Add the order to inservice List and delete from the initial list
+		speed = normalcookslist.getHead()->getItem().getSpeed();
 		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		nOfDishes = viporders.getHead()->getItem().GetDishes();
+		viporders.DeleteFirst();
 		//Transfer the cook into the busy List
-		int nOfDishes = viporders.getHead()->getItem().GetDishes();
 		busyCooks.insertSortedBusyCooks(normalcookslist.getHead()->getItem(), nOfDishes);
 		normalcookslist.DeleteFirst();
 	}
@@ -137,20 +145,87 @@ void Restaurant::assignVIPOrders()
 	while (normalcookslist.getCount() > 0 && viporders.getHead() != nullptr)
 	{
 		//get Cook ID 
-		int cookID = vegancookslist.getHead()->getItem().GetID();
-		//set cook ID
+		cookID = vegancookslist.getHead()->getItem().GetID();
+		//set cook ID and Type
 		viporders.getHead()->getItem().setCookID(cookID);
+		viporders.getHead()->getItem().setCookType(TYPE_VEG);
 		//Add the order to inservice List
-		int speed = vegancookslist.getHead()->getItem().getSpeed();
+		speed = vegancookslist.getHead()->getItem().getSpeed();
 		inserviceList.insertSortedInserviceOrders(viporders.getHead()->getItem(), speed);
+		nOfDishes = viporders.getHead()->getItem().GetDishes();
+		viporders.DeleteFirst();
 		//Transfer the cook into the busy List
-		int nOfDishes = viporders.getHead()->getItem().GetDishes();
 		busyCooks.insertSortedBusyCooks(vegancookslist.getHead()->getItem(), nOfDishes);
 		vegancookslist.DeleteFirst();
 	}
 	
 }
 
+void Restaurant::assignNormalOrders()
+{
+	int cookID, speed, nOfDishes;
+	while (normalorders.getCount() > 0 && normalcookslist.getCount() > 0)
+	{
+		//get Cook Id
+		cookID = normalcookslist.getHead()->getItem().GetID();
+		//set cookID and Type
+		normalorders.getHead()->getItem().setCookID(cookID);
+		normalorders.getHead()->getItem().setCookType(TYPE_VIP);
+		//unlist the normal order and add it to the inservice list
+		speed = normalcookslist.getHead()->getItem().getSpeed();
+		nOfDishes = normalorders.getHead()->getItem().GetDishes();
+		inserviceList.insertSortedInserviceOrders(normalorders.getHead()->getItem(), speed);
+		normalorders.DeleteFirst();
+		//unlist the cook and add it to the busy cooks
+		busyCooks.insertSortedBusyCooks(normalcookslist.getHead()->getItem(), nOfDishes);
+		normalcookslist.DeleteFirst();
+	}
+	while (normalorders.getCount() > 0 && normalcookslist.getCount() > 0)
+	{	
+		//get Cook Id
+		cookID = vipcookslist.getHead()->getItem().GetID();
+		//set cookID and Type
+		normalorders.getHead()->getItem().setCookID(cookID);
+		normalorders.getHead()->getItem().setCookType(TYPE_VIP);
+		//unlist the normal order and add it to the inservice list
+		speed = vipcookslist.getHead()->getItem().getSpeed();
+		nOfDishes = normalorders.getHead()->getItem().GetDishes();
+		inserviceList.insertSortedInserviceOrders(normalorders.getHead()->getItem(), speed);
+		normalorders.DeleteFirst();
+		//unlist the cook and add it to the busy cooks
+		busyCooks.insertSortedBusyCooks(vipcookslist.getHead()->getItem(), nOfDishes);
+		vipcookslist.DeleteFirst();
+		
+	}
+}
+
+void Restaurant::assignVeganOrders()
+{
+	int cookID, cookSpeed, nOfDishes;
+	Order newOrder;
+
+	if (vegancookslist.getCount() == 0 || veganorders.count() == 0)
+		return;
+	while (veganorders.count() > 0)
+	{
+		//check if vegan cooks are free
+		if (vegancookslist.getCount() == 0) return;
+		cookID = vegancookslist.getHead()->getItem().GetID();
+		cookSpeed = vegancookslist.getHead()->getItem().getSpeed();
+		//dequeue the first veganorder
+		veganorders.dequeue(newOrder);
+		nOfDishes = newOrder.GetDishes();
+		//set cook ID and type
+		newOrder.setCookID(cookID);
+		newOrder.setCookType(TYPE_VEG);
+		//insert the order into the inservicelist
+		inserviceList.insertSortedInserviceOrders(newOrder, cookSpeed);
+		//insert the cook into busy cooks list
+		busyCooks.insertSortedBusyCooks(vegancookslist.getHead()->getItem(), nOfDishes);
+		//delete the cook from its initial list
+		vegancookslist.DeleteFirst();
+	}
+}
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
 
