@@ -6,7 +6,7 @@ class promotionEvent :
 	public Event
 {
 
-	ORD_TYPE OrdType;
+	ORD_TYPE OrdType = TYPE_VIP;
 	double extraMoney;
 public:
 	promotionEvent(int eTime, int oID, double extraMon);
