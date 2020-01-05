@@ -64,6 +64,19 @@ void Cook::give_order(Order &o) {
 void Cook::put_on_break() {
 	state = -1;
 }
+void Cook::mealsDecrement()
+{
+	mealsIncrement--;
+
+}
+void Cook::mealNewIncrement()
+{
+	mealsIncrement = nOfOrdersBeforeBreak;
+}
+int Cook::getmealsIncrement()
+{
+	return mealsIncrement;
+}
 int Cook::getState() const
 {
 	return state;

@@ -414,7 +414,8 @@ public:
 	}
 	bool insertSortedInserviceOrders(Order order, int cookSpeed)
 	{
-		double orderTime = order.GetDishes() / cookSpeed;
+		int orderTime = ceil(order.GetDishes() / cookSpeed);
+		cout << orderTime << endl;
 		order.setServiceTime(orderTime);
 		Node<Order>*ptr = Head;
 		Node<Order> *newNode = new Node<Order>;
@@ -424,7 +425,7 @@ public:
 			InsertBeg(order);
 			return true;
 		}
-		while (ptr->getItem().getServiceTime() < orderTime)
+		while (ptr->getItem().getServiceTime() <= orderTime)
 		{
 
 			ptr = ptr->getNext();
@@ -440,7 +441,7 @@ public:
 		ptr->setNext(newNode);
 		count++;
 
-		return true; newNode->setNext(ptr);
+		return true; 
 	}
 
 	//only for BusyCooks
@@ -494,7 +495,7 @@ public:
 				return true;
 			}
 		}
-		Node<Order> *p = ptr->getNext();
+		Node<Cook> *p = ptr->getNext();
 		newNode->setNext(p);
 		ptr->setNext(newNode);
 		count++;

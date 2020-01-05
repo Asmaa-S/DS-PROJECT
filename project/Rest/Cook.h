@@ -12,6 +12,7 @@ class Cook
 	int nOfOrdersBeforeBreak;
 	int state; // 0 is free, 1 is busy, -1 is on break
 	double orderTime;
+	int mealsIncrement;
 
 public:
 	Cook();
@@ -36,5 +37,9 @@ public:
 	void give_order(Order &o);
 	void put_on_break();
 
+	void mealsDecrement();
+	void mealNewIncrement();
+	int getmealsIncrement();
+	
 
 };

@@ -68,6 +68,7 @@ public:
 	LinkedList<Cook> getVeganCookList();
 	LinkedList<Cook> getNormalCookList();
 
+
 	Order* getFinishedOrders();
 	Order* getInserviceList();
 	void pickOneOrder();
@@ -76,7 +77,9 @@ public:
 	void assignVIPOrders();
 	void assignNormalOrders();
 	void assignVeganOrders();
-
+	void freeCook();
+	int getFinishedNumber();
+	void addFinishedOrder(Order order);
 	// TODO: Add More Member Functions As Needed
 	//
 

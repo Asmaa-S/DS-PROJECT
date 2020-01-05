@@ -16,7 +16,7 @@ protected:
 	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
 	int cookID;
 	ORD_TYPE cookType;
-	double serviceTime;
+	int serviceTime;
 	//
 	// TODO: Add More Data Members As Needed
 	//
@@ -64,8 +64,10 @@ public:
 	ORD_TYPE getCookType() const;
 	void setCookType(ORD_TYPE Type);
 
-	double getServiceTime() const;
-	void setServiceTime(double time);
+	int getServiceTime() const;
+	void setServiceTime(int time);
+	void serviceTimeDecrement();
+
 	//
 	// TODO: Add More Member Functions As Needed
 	//

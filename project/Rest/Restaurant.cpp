@@ -83,16 +83,18 @@ void Restaurant::simpleSimulator()
 	
 
 		//pick one order
-		pickOneOrder();
-		/*assignVIPOrders();
+		//pickOneOrder();
+		assignVIPOrders();
 		assignVeganOrders();
 		assignNormalOrders();
-		*/
+		freeCook();
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
 		if (step % 5 == 0)
 		{
-			moveToFinished();
+			//moveToFinished();
+			
 		}
+		
 
 		
 		//pGUI->updateInterface();
@@ -142,7 +144,7 @@ void Restaurant::assignVIPOrders()
 		normalcookslist.DeleteFirst();
 	}
 	//Check Vegan Cooks for VIP orders
-	while (normalcookslist.getCount() > 0 && viporders.getHead() != nullptr)
+	while (vegancookslist.getCount() > 0 && viporders.getHead() != nullptr)
 	{
 		//get Cook ID 
 		cookID = vegancookslist.getHead()->getItem().GetID();
@@ -170,7 +172,7 @@ void Restaurant::assignNormalOrders()
 		cookID = normalcookslist.getHead()->getItem().GetID();
 		//set cookID and Type
 		normalorders.getHead()->getItem().setCookID(cookID);
-		normalorders.getHead()->getItem().setCookType(TYPE_VIP);
+		normalorders.getHead()->getItem().setCookType(TYPE_NRM);
 		//unlist the normal order and add it to the inservice list
 		speed = normalcookslist.getHead()->getItem().getSpeed();
 		nOfDishes = normalorders.getHead()->getItem().GetDishes();
@@ -180,7 +182,7 @@ void Restaurant::assignNormalOrders()
 		busyCooks.insertSortedBusyCooks(normalcookslist.getHead()->getItem(), nOfDishes);
 		normalcookslist.DeleteFirst();
 	}
-	while (normalorders.getCount() > 0 && normalcookslist.getCount() > 0)
+	while (normalorders.getCount() > 0 && vipcookslist.getCount() > 0)
 	{	
 		//get Cook Id
 		cookID = vipcookslist.getHead()->getItem().GetID();
@@ -225,6 +227,82 @@ void Restaurant::assignVeganOrders()
 		//delete the cook from its initial list
 		vegancookslist.DeleteFirst();
 	}
+}
+
+void Restaurant::freeCook()
+{
+	if (inserviceList.getHead() == nullptr) return;
+	Node<Order> *ptr = inserviceList.getHead();
+
+	while (ptr != nullptr)
+	{
+		ptr->getItem().serviceTimeDecrement();
+		ptr = ptr->getNext();
+		cout << "\n" <<ptr->getItem().getServiceTime() << endl;
+	}
+	/*while (inserviceList.getHead()->getItem().getServiceTime() < 0)
+	{
+		addFinishedOrder(inserviceList.getHead()->getItem());
+	}*/
+
+}
+
+/*void Restaurant::freeCook()
+{
+	Cook cook;
+	Order order;
+	int cookID;
+	ORD_TYPE type;
+	Node<Order> *ptr = inserviceList.getHead();
+	while (ptr != nullptr)
+	{
+		ptr->getItem().serviceTimeDecrement();
+		ptr = ptr->getNext();
+	}
+	while (inserviceList.getCount() != 0)
+	{
+		
+		while (inserviceList.getHead()->getItem().getServiceTime() <= 0)
+		{
+
+			order = inserviceList.getHead()->getItem();
+			type = order.GetType();
+			//move the order to finished
+			Finished_Orders[numOfFinishedOrders] = order;
+			numOfFinishedOrders++;
+			//delete order from inservicelist
+			inserviceList.DeleteFirst();
+			cook = busyCooks.getHead()->getItem();
+			cookID = cook.GetID();
+			//check if the order and cook are related
+			if (cookID != order.getCookID()) cout << "sth is wrong check later\n";
+			//decrement the number of meals for the cook to take a break
+			cook.mealsDecrement();
+			// if the number is zero the cook can take a break
+			if (cook.getmealsIncrement() == 0) inBreakCooks.insertSortedBreakCooks(cook);
+			//if not the cook is now free
+			else
+			{
+				if (cook.GetType() == TYPE_NRM) normalcookslist.InsertEnd(cook);
+				else if (cook.GetType() == TYPE_VEG) vegancookslist.InsertEnd(cook);
+				else if (cook.GetType() == TYPE_VIP) vegancookslist.InsertEnd(cook);
+
+			}
+			//delete the cook from busycooks list
+			busyCooks.DeleteFirst();
+		}
+	}
+}*/
+
+int Restaurant::getFinishedNumber()
+{
+	return numOfFinishedOrders;
+}
+
+void Restaurant::addFinishedOrder(Order order)
+{
+	Finished_Orders[numOfFinishedOrders] = order;
+	numOfFinishedOrders++;
 }
 
 //////////////////////////////////  Event handling functions   /////////////////////////////
