@@ -9,33 +9,6 @@ using namespace std;
 #include<fstream>
 
 
-void removeSpaces(string &line)
-{
-	
-	int l = line.length(),pos,numsp=0;
-	string delim = " ";
-	string temp = line;
-	//line.clear();
-	
-	//count spaces
-	for (int i = 0; i < l; i++) {
-		pos = temp.find(delim);
-		if (pos != -1)
-		{	
-			numsp++;
-			temp.erase(0, pos+1);
-		}
-	}
-
-	for (int i = 0; i< numsp; i++) {
-		pos = line.find(delim);
-		
-		line.erase(pos, 1);
-	}
-}				   // incremented 
-	
-
-
 Restaurant::Restaurant()
 {
 	pGUI = NULL;
@@ -88,6 +61,7 @@ void Restaurant::simpleSimulator()
 		assignVeganOrders();
 		assignNormalOrders();
 		freeCook();
+		
 		//c.	Each 5 timesteps, move an order of each type from In-service list(s) to finished list(s)
 		if (step % 5 == 0)
 		{
@@ -101,7 +75,15 @@ void Restaurant::simpleSimulator()
 		pGUI->waitForClick();
 		
 		step++; //increase time by one
+
+		if (step == 40)
+		{
+			this->save_to_file("b.txt");
+			break;
+
+		}
 	}
+	
 
 }
 
@@ -110,6 +92,7 @@ void Restaurant::assignVIPOrders()
 {
 	int cookID, speed, nOfDishes;
 	//VIP cooks For VIP orders
+	/// change state
 	while (vipcookslist.getCount() > 0 &&  viporders.getHead() != nullptr)
 	{
 		//get the Cook ID of the first waiting Cook
@@ -323,13 +306,11 @@ void Restaurant::ExecuteEvents(int CurrentTimeStep)
 
 }
 
-
 Restaurant::~Restaurant()
 {
 	
 		delete pGUI;
 }
-
 
 void Restaurant::FillDrawingList()
 {
@@ -429,8 +410,6 @@ void Restaurant::FillDrawingList()
 	}
 }
 
-
-
 void Restaurant::load_from_file(string filename)
 {   //open file
 	ifstream infile;
@@ -475,7 +454,10 @@ void Restaurant::load_from_file(string filename)
 	 cn >> ncooks_n;
 	 cg >> ncooks_veg;
 	 cv >> ncooks_vip;
-
+	 n_cooks_vip = ncooks_vip;
+	 n_cooks_norm = ncooks_n;
+     n_cooks_veg=ncooks_veg;
+	
 	 stringstream a(lines[2].substr(0, 1));
 	 stringstream b(lines[2].substr(2, 1));
 	 stringstream c(lines[2].substr(4, 1));
@@ -484,7 +466,10 @@ void Restaurant::load_from_file(string filename)
 	 b >> bn;
 	 c >> bg;
 	 d >> bv;
-
+	 meals_bef_break=bm;
+	 break_dur_norm = bn;
+	 break_dur_veg = bg;
+	 break_dur_vip = bv;
 	 stringstream e(lines[3]);
 	 e >> n_autopromote;
 	 stringstream o(lines[4]);
@@ -530,13 +515,13 @@ void Restaurant::load_from_file(string filename)
 		 //order arrival events 
 	    if (ev_type=="R"){
 			//record id
-			stringstream tt1(lines[i].substr(6, 1));
+			stringstream tt1(lines[i].substr(6, 2));
 			tt1 >> i_d;
 			//record #of dishes
-			stringstream tt2(lines[i].substr(8, 1));
+			stringstream tt2(lines[i].substr(9, 1));
 			tt2 >> n_dish;
 			//record order cost
-			stringstream tt3(lines[i].substr(10, 1));
+			stringstream tt3(lines[i].substr(11, 1));
 			tt3 >> cost;
 			//store order,as per type
 			string Oo_t = lines[i].substr(4, 1);
@@ -544,7 +529,7 @@ void Restaurant::load_from_file(string filename)
 				O_t = TYPE_NRM;
 				//Order OOn(i_d, O_t);
 				//normalorders.InsertEnd(OOn);
-				//n_orders++;
+				n_orders++;
 			}
 
 			else if (Oo_t == "V")
@@ -565,7 +550,7 @@ void Restaurant::load_from_file(string filename)
 				//Order OOg(i_d, O_t);
 				//veganorders.enqueue(OOg);
 			}
-			Event* evv = new ArrivalEvent(a_t, i_d, O_t, n_dish, cost);
+			Event* evv = new ArrivalEvent(a_t, i_d, O_t, n_dish, cost, n_autopromote);
 
 			EventsQueue.enqueue(evv);
 		}
@@ -596,10 +581,10 @@ void Restaurant::load_from_file(string filename)
 		 
 	 }
 	 int vbvvmn = EventsQueue.count();
-	
+	 totl_num_orders = n_orders;
 }
-//change sizeof to numOffinishedorders
-/*void Restaurant::save_to_file(string filename)
+
+void Restaurant::save_to_file(string filename)
 {
 	ofstream outfile;
 	outfile.open(filename.c_str(), ios::out | ios::trunc);
@@ -610,43 +595,39 @@ void Restaurant::load_from_file(string filename)
 		exit(1);   // call system to stop
 	}
 
-	int v_co = vipcookslist.getCount(), g_co = vegancookslist.getCount(), n_co = normalcookslist.getCount();
-	int n_ord = sizeof(Finished_Orders);
-	int n_co = totl_num_cooks;
 	int n_ord = totl_num_orders;
 	Order O;
 	int sumwait = 0, wait;
-	outfile << "FT  ID  AT  W  ST" << "\n";
-	int sumserv, serv;
-	for (int i = 0; i < sizeof(Finished_Orders); i++) {
-		for (int i = 0; i < totl_num_orders; i++) {
+	outfile << "FT\t\tID\t\tAT\t\tW\t\tST" << "\n";
+	int sumserv=0, serv;
+		for (int j = 0; j < n_ord; j++) {
 
-			O = Finished_Orders[i];
+			O = Finished_Orders[j];
 			wait = O.GetFinish() - O.getAT();
 			sumwait += wait;
 			serv = O.getST();
 			sumserv += serv;
-			outfile << O.GetID() << "\t\t" << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
+			outfile << O.GetFinish() << "\t\t" << O.GetID() << "\t\t" << O.getAT() << "\t\t" << wait << "\t\t" << serv << "\t\t";
 
 			outfile << "\n";
 
 		}
+
 		outfile << "...............................\n";
 		outfile << "orders   :  " << n_ord << "   norm:  " << normalorders.getCount() << "   vip:  " << viporders.getCount() << "   vegan:  " << veganorders.count();
-		outfile << "\n cooks:  " << v_co + n_co + g_co << "  norm:  " << n_co << "  veg:  " << g_co << "  vip:  " << v_co;
-		outfile << "\n cooks:  " << n_co << "  norm:  " << normalcookslist.getCount() << "  veg:  " << vegancookslist.getCount() << "  vip:  " << vipcookslist.getCount();
+		outfile << "\n cooks:  " << totl_num_cooks << "  norm:  " << n_cooks_norm << "  veg:  " << n_cooks_veg << "  vip:  " << n_cooks_vip;
 		outfile << "\navg wait:   " << double(sumwait) / n_ord << "  avg serv:   " << double(sumserv) / n_ord;
 		outfile << "\n autopromoted : " << n_autopromoted;
 
-	}
-}*/
+	//}
+}
 
-	LinkedList<Order> Restaurant::getNormalOrders()
+LinkedList<Order> Restaurant::getNormalOrders()
 	{
 		return normalorders;
 	}
 
-	LinkedList<Order> Restaurant::getVipOrders()
+LinkedList<Order> Restaurant::getVipOrders()
 {
 	return viporders;
 }
@@ -666,7 +647,6 @@ LinkedList<Cook> Restaurant::getVeganCookList()
 	return vegancookslist;
 }
 
-
 LinkedList<Cook> Restaurant::getNormalCookList()
 {
 	return normalcookslist;
@@ -676,8 +656,6 @@ Order* Restaurant::getFinishedOrders()
 {
 	return Finished_Orders;
 }
-
-
 
 void Restaurant::moveToFinished()
 {
@@ -749,14 +727,53 @@ void Restaurant::pickOneOrder()
 	}
 }
 
-
-
-
-
-
-
 bool Restaurant::EventsQueueIsEmpty()
 { // this function checks if the Event Queue is empty or not
 	return EventsQueue.isEmpty();
 }
 
+void Restaurant::handle_cook_breaks(int current_time_step) {
+	//put on break
+	Node<Cook>*ptr= normalcookslist.getHead();
+	Cook curr_cook = ptr->getItem();
+	for (int i = 0; i < n_cooks_norm; i++)
+	{
+		if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		inBreakCooks.InsertEnd(curr_cook);
+	}
+
+	ptr = vipcookslist.getHead();
+    curr_cook = ptr->getItem();
+	for (int j = 0; j < n_cooks_vip; j++)
+	{
+          if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		  inBreakCooks.InsertEnd(curr_cook);
+
+	}
+	
+	ptr = vipcookslist.getHead();
+    curr_cook = ptr->getItem();
+	for (int k = 0; k < n_cooks_veg; k++)
+	{
+		if (curr_cook.get_num_orders_done() == meals_bef_break)
+			curr_cook.put_on_break(current_time_step);
+		inBreakCooks.InsertEnd(curr_cook);
+
+	}
+
+	// out of break logic
+   ptr = inBreakCooks.getHead();
+   while (ptr != nullptr) {
+	   curr_cook = ptr->getItem();
+
+	   if (current_time_step - curr_cook.get_break_start_time() >= curr_cook.getBreakDuration()) {
+		   inBreakCooks.Delete_node_by_ptr(ptr);
+		   curr_cook.put_out_of_break();
+	   }
+	   ptr = ptr->getNext();
+	}
+
+	
+}

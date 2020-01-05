@@ -27,6 +27,7 @@ Order::Order(int arrivalTime,int id, ORD_TYPE r_Type, int size, double money)
 }
 
 
+
 Order::~Order()
 {
 }
@@ -158,8 +159,16 @@ void Order::setStatus(ORD_STATUS s)
 	status = s;
 }
 
+void Order::setAutoS(int s)
+{
+	autoS = s;
+}
+int Order::getAutoS()
+{
+	return autoS;
+}
+
 ORD_STATUS Order::getStatus() const
 {
 	return status;
 }
-

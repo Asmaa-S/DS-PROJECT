@@ -63,14 +63,17 @@ void removeSpaces(string &line);
 }*/
 
 int main() {
-	
-	//GUIDemo();
-	
 
 	Restaurant* pRest = new Restaurant;
 	pRest->simpleSimulator();
 	int pause;
 	cin >> pause;
+	
+	
+	
+	
+	
+	
 	//GUIDemo();
 	//int pause;
 	//cin >> pause;

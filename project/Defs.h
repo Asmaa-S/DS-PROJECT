@@ -31,3 +31,10 @@ enum event_type {
 	X,
 	P
 };
+
+enum COOK_STATE
+{ FREE,
+	BUSY,
+ONBREAK
+
+};

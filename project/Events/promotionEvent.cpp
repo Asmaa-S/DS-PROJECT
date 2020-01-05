@@ -28,6 +28,6 @@ void promotionEvent::Execute(Restaurant* pRest)
 	Order ord(EventTime, OrderID, OrdType, OrdDishes, OrdMoney);
 	pRest->viporders.InsertSortedOrder(ord);
 
-	return; //until phase 2
+	//return; //until phase 2
 
 }
